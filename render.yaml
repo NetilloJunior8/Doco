@@ -1,0 +1,23 @@
+# ==============================================================================
+# RENDER BLUEPRINT - DOCO BACKEND DEPLOYMENT (FREE TIER COMPATIBLE)
+# ==============================================================================
+services:
+  - type: web
+    name: doco-backend
+    runtime: docker
+    dockerfilePath: backend/Dockerfile
+    dockerContext: backend
+    plan: free
+    region: oregon
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: SPRING_PROFILE
+        value: sqlite
+      - key: APP_CORS_ORIGINS
+        value: "https://*.vercel.app,http://localhost:4200"
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CAPTCHA_ENABLED
+        value: "false"

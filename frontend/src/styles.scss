@@ -1,0 +1,217 @@
+:root,
+:root[data-theme='dark'] {
+  --bg-void: #09090b;
+  --bg-surface: #121216;
+  --bg-elevated: #1a1a21;
+  --bg-footer: #060608;
+  --bg-glass: rgba(9, 9, 11, 0.84);
+  --bg-media: #16161b;
+
+  --text-bone: #f5f3ee;
+  --text-secondary: #d4d2cd;
+  --text-muted: #9898a3;
+  --text-dim: #63636e;
+
+  --border-subtle: rgba(245, 243, 238, 0.11);
+  --border-strong: rgba(245, 243, 238, 0.28);
+
+  --accent-crimson: #e11d48;
+  --accent-crimson-soft: rgba(225, 29, 72, 0.14);
+  --accent-emerald: #10b981;
+  --chrome-gradient: linear-gradient(135deg, #f5f3ee 0%, #9ca3af 48%, #ffffff 100%);
+  --card-shadow-hover: 0 18px 40px rgba(0, 0, 0, 0.55);
+  --grain-opacity: 0.032;
+}
+
+:root[data-theme='light'] {
+  --bg-void: #f5f3ee;
+  --bg-surface: #ffffff;
+  --bg-elevated: #ebe8e0;
+  --bg-footer: #eae7df;
+  --bg-glass: rgba(245, 243, 238, 0.88);
+  --bg-media: #efede7;
+
+  --text-bone: #0a0a0c;
+  --text-secondary: #27272a;
+  --text-muted: #52525b;
+  --text-dim: #71717a;
+
+  --border-subtle: rgba(10, 10, 12, 0.12);
+  --border-strong: rgba(10, 10, 12, 0.36);
+
+  --accent-crimson: #d90429;
+  --accent-crimson-soft: rgba(217, 4, 41, 0.1);
+  --accent-emerald: #059669;
+  --chrome-gradient: linear-gradient(135deg, #0a0a0c 0%, #52525b 52%, #18181b 100%);
+  --card-shadow-hover: 0 18px 36px rgba(10, 10, 12, 0.11);
+  --grain-opacity: 0.018;
+}
+
+:root {
+  --font-display: 'Syne', sans-serif;
+  --font-sans: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --ease-kinetic: cubic-bezier(0.22, 1, 0.36, 1);
+  --radius-sharp: 2px;
+  --radius-card: 6px;
+  --container-max: 1380px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-void);
+  color: var(--text-bone);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+  transition: background-color 0.22s var(--ease-kinetic), color 0.22s var(--ease-kinetic);
+}
+
+/* Subtle archival film-grain overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: var(--grain-opacity);
+  background-image: radial-gradient(currentColor 0.6px, transparent 0.6px);
+  background-size: 3px 3px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+/* Prevent iOS Safari zoom on input focus */
+@media (max-width: 768px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+.doco-container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 clamp(0.85rem, 3vw, 2.5rem);
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.025em;
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+::selection {
+  background: var(--text-bone);
+  color: var(--bg-void);
+}
+
+::-moz-selection {
+  background: var(--text-bone);
+  color: var(--bg-void);
+}
+
+/* Luxury slim scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-void);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+:focus-visible {
+  outline: 1px solid var(--text-bone);
+  outline-offset: 2px;
+}
+
+@keyframes doco-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes doco-marquee-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes doco-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes doco-pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.55;
+    transform: scale(1.2);
+  }
+}

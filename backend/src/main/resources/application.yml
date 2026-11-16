@@ -1,0 +1,76 @@
+server:
+  port: ${PORT:8080}
+  compression:
+    enabled: true
+    mime-types: application/json,text/plain,application/problem+json
+  error:
+    include-message: never
+    include-stacktrace: never
+
+spring:
+  application:
+    name: doco-catalog-backend
+  profiles:
+    active: ${SPRING_PROFILE:sqlite}
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+springdoc:
+  swagger-ui:
+    enabled: ${SWAGGER_ENABLED:true}
+
+app:
+  cors:
+    allowed-origins: ${APP_CORS_ORIGINS:http://localhost:4200,http://127.0.0.1:4200,https://*.vercel.app}
+    allowed-methods: GET,POST,PUT,PATCH,DELETE,OPTIONS
+    allowed-headers: Authorization,Content-Type,X-Captcha-Token,X-Idempotency-Key
+    exposed-headers: X-RateLimit-Remaining,Retry-After
+    allow-credentials: true
+    max-age-seconds: 3600
+
+  security:
+    jwt-secret: ${JWT_SECRET:doco-dev-only-change-this-to-64-chars-in-production-environment-2026!}
+    jwt-expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+    csp-policy: "default-src 'none'; frame-ancestors 'none'; base-uri 'none';"
+    bootstrap-admin-email: ${DOCO_ADMIN_EMAIL:admin@doco.mx}
+    bootstrap-admin-password: ${DOCO_ADMIN_PASSWORD:DocoAdmin#2026!}
+
+  captcha:
+    enabled: ${CAPTCHA_ENABLED:false}
+    verify-url: https://challenges.cloudflare.com/turnstile/v0/siteverify
+    site-key: ${TURNSTILE_SITE_KEY:1x00000000000000000000AA}
+    secret-key: ${TURNSTILE_SECRET_KEY:1x0000000000000000000000000000000AA}
+    header-name: X-Captcha-Token
+    protected-post-paths:
+      - /api/v1/checkout
+      - /api/v1/auth/login
+      - /api/v1/auth/register
+
+  rate-limit:
+    enabled: ${RATE_LIMIT_ENABLED:true}
+    catalog-reads-per-minute: ${RATE_READ_RPM:120}
+    auth-and-checkout-per-minute: ${RATE_AUTH_RPM:20}
+    webhook-per-minute: ${RATE_WEBHOOK_RPM:60}
+    trust-proxy-headers: ${TRUST_PROXY_HEADERS:false}
+
+  payments:
+    default-provider: TRANSFER_WHATSAPP
+    free-shipping-threshold-mxn: 2500.00
+    flat-shipping-fee-mxn: 180.00
+    whatsapp-phone: ${DOCO_WHATSAPP_PHONE:526672033174}
+    mercado-pago-access-token: ${MP_ACCESS_TOKEN:}
+    mercado-pago-webhook-secret: ${MP_WEBHOOK_SECRET:}
+    stripe-secret-key: ${STRIPE_SECRET_KEY:}
+    stripe-webhook-secret: ${STRIPE_WEBHOOK_SECRET:}
+    frontend-success-url: ${FRONTEND_SUCCESS_URL:http://localhost:4200/checkout/success}
+    frontend-cancel-url: ${FRONTEND_CANCEL_URL:http://localhost:4200/checkout/cancel}

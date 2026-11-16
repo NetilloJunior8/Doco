@@ -1,0 +1,10 @@
+app:
+  sqlite:
+    path: ./target/test-${random.uuid}.db
+  captcha:
+    enabled: false
+  rate-limit:
+    enabled: false
+  payments:
+    mercado-pago-webhook-secret: test-mp-secret-key-2026
+    stripe-webhook-secret: test-stripe-secret-key-2026
