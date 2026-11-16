@@ -2,6 +2,12 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, computed, inject
 import { RouterLink } from '@angular/router';
 import { Brand, Category, ProductSummary, StyleEra } from '../../core/models/catalog.models';
 import { CartService } from '../../core/services/cart.service';
+import {
+  FALLBACK_BRANDS,
+  FALLBACK_CATEGORIES,
+  FALLBACK_PRODUCTS,
+  toProductSummary
+} from '../../core/services/catalog.fallback.data';
 import { CatalogService } from '../../core/services/catalog.service';
 import { QuickViewService } from '../../core/services/quick-view.service';
 import { SoundFxService } from '../../core/services/sound-fx.service';
@@ -1136,11 +1142,11 @@ export class HomePageComponent implements OnInit, OnDestroy {
   protected readonly whatsapp = inject(WhatsAppService);
   protected readonly quickView = inject(QuickViewService);
 
-  protected readonly categories = signal<Category[]>([]);
-  protected readonly brands = signal<Brand[]>([]);
-  protected readonly allDropProducts = signal<ProductSummary[]>([]);
+  protected readonly categories = signal<Category[]>(FALLBACK_CATEGORIES.slice(0, 4));
+  protected readonly brands = signal<Brand[]>(FALLBACK_BRANDS);
+  protected readonly allDropProducts = signal<ProductSummary[]>(FALLBACK_PRODUCTS.map(toProductSummary));
   protected readonly selectedHomeEra = signal<'ALL' | StyleEra>('ALL');
-  protected readonly loading = signal(true);
+  protected readonly loading = signal(false);
   protected readonly error = signal('');
   protected readonly localTime = signal(this.getNowTime());
 
@@ -1188,7 +1194,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   protected loadHomeData(): void {
-    this.loading.set(true);
+    if (this.allDropProducts().length === 0) {
+      this.loading.set(true);
+    }
     this.error.set('');
 
     this.catalogService.getCategories().subscribe({
@@ -1207,7 +1215,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
         this.loading.set(false);
       },
       error: (err) => {
-        this.error.set(err?.message || 'Error al cargar los drops.');
+        if (this.allDropProducts().length === 0) {
+          this.error.set(err?.message || 'Error al cargar los drops.');
+        }
         this.loading.set(false);
       }
     });

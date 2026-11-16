@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Brand, Category, PageResponse, ProductSummary, StyleEra } from '../../core/models/catalog.models';
 import { CartService } from '../../core/services/cart.service';
+import { FALLBACK_BRANDS, FALLBACK_CATEGORIES, filterFallbackProducts } from '../../core/services/catalog.fallback.data';
 import { CatalogService } from '../../core/services/catalog.service';
 import { SoundFxService } from '../../core/services/sound-fx.service';
 import { WhatsAppService } from '../../core/services/whatsapp.service';
@@ -389,11 +390,11 @@ export class CatalogPageComponent implements OnInit {
   protected readonly whatsapp = inject(WhatsAppService);
   protected readonly Math = Math;
 
-  protected readonly categories = signal<Category[]>([]);
-  protected readonly brands = signal<Brand[]>([]);
-  protected readonly pageData = signal<PageResponse<ProductSummary> | null>(null);
+  protected readonly categories = signal<Category[]>(FALLBACK_CATEGORIES);
+  protected readonly brands = signal<Brand[]>(FALLBACK_BRANDS);
+  protected readonly pageData = signal<PageResponse<ProductSummary> | null>(filterFallbackProducts());
   protected readonly totalCount = signal(8);
-  protected readonly loading = signal(true);
+  protected readonly loading = signal(false);
   protected readonly error = signal('');
   protected readonly filtersExpanded = signal(false);
   protected readonly viewMode = signal<'grid' | 'editorial'>('grid');
@@ -472,19 +473,24 @@ export class CatalogPageComponent implements OnInit {
   }
 
   protected loadProducts(): void {
-    this.loading.set(true);
+    const filter = {
+      search: this.search,
+      category: this.selectedCategory,
+      brand: this.selectedBrand,
+      era: this.selectedEra,
+      sort: this.sort,
+      inStockOnly: this.inStockOnly || undefined,
+      page: this.currentPage,
+      pageSize: 12
+    };
+
+    const instant = filterFallbackProducts(filter);
+    this.pageData.set(instant);
+    this.totalCount.set(instant.totalElements);
     this.error.set('');
+
     this.catalogService
-      .searchProducts({
-        search: this.search,
-        category: this.selectedCategory,
-        brand: this.selectedBrand,
-        era: this.selectedEra,
-        sort: this.sort,
-        inStockOnly: this.inStockOnly || undefined,
-        page: this.currentPage,
-        pageSize: 12
-      })
+      .searchProducts(filter)
       .subscribe({
         next: (res) => {
           this.pageData.set(res);
@@ -492,7 +498,9 @@ export class CatalogPageComponent implements OnInit {
           this.loading.set(false);
         },
         error: (err) => {
-          this.error.set(err?.message || 'Error al cargar catálogo.');
+          if (!this.pageData()) {
+            this.error.set(err?.message || 'Error al cargar catálogo.');
+          }
           this.loading.set(false);
         }
       });

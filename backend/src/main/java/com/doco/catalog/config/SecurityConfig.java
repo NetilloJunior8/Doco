@@ -77,14 +77,14 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/health", "/api/v1/catalog/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/checkout").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/checkout/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/webhooks/payments/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/health", "/api/health", "/api/v1/catalog/**", "/api/catalog/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/register", "/api/auth/login", "/api/auth/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/checkout", "/api/checkout").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/checkout/**", "/api/checkout/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/webhooks/payments/**", "/api/webhooks/payments/**").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers("/actuator/health").permitAll()
-                        .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/admin/**", "/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
@@ -106,7 +106,7 @@ public class SecurityConfig {
         config.setMaxAge(corsProperties.maxAgeSeconds());
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/api/**", config);
+        source.registerCorsConfiguration("/**", config);
         return source;
     }
 

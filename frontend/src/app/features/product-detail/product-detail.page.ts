@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@ang
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProductDetail, ProductSummary } from '../../core/models/catalog.models';
 import { CartService } from '../../core/services/cart.service';
+import { getFallbackProductBySlug } from '../../core/services/catalog.fallback.data';
 import { CatalogService } from '../../core/services/catalog.service';
 import { SoundFxService } from '../../core/services/sound-fx.service';
 import { WhatsAppService } from '../../core/services/whatsapp.service';
@@ -681,7 +682,14 @@ export class ProductDetailPageComponent implements OnInit {
 
   protected loadPiece(): void {
     const slug = this.route.snapshot.paramMap.get('slug') ?? '';
-    this.loading.set(true);
+    const cached = getFallbackProductBySlug(slug);
+    if (cached) {
+      this.piece.set(cached);
+      this.activeImageUrl.set(cached.images[0]?.imageUrl ?? '');
+      this.loading.set(false);
+    } else {
+      this.loading.set(true);
+    }
     this.error.set('');
     this.catalogService.getProductBySlug(slug).subscribe({
       next: (item) => {
@@ -690,8 +698,10 @@ export class ProductDetailPageComponent implements OnInit {
         this.loading.set(false);
       },
       error: (err) => {
-        this.error.set(err?.message || 'No se encontró la prenda.');
-        this.loading.set(false);
+        if (!this.piece()) {
+          this.error.set(err?.message || 'No se encontró la prenda.');
+          this.loading.set(false);
+        }
       }
     });
   }
