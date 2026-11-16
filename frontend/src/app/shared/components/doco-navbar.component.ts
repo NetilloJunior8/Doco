@@ -24,16 +24,6 @@ import { WhatsAppService } from '../../core/services/whatsapp.service';
     <header class="nav-shell">
       <div class="doco-container nav-inner">
         <div class="nav-left">
-          <button
-            type="button"
-            class="mobile-menu-btn font-mono"
-            (click)="toggleMobileMenu()"
-            [attr.aria-expanded]="mobileMenuOpen()"
-            aria-label="Abrir menú de navegación"
-          >
-            <span>{{ mobileMenuOpen() ? '✕' : 'MENÚ' }}</span>
-          </button>
-
           <a routerLink="/" class="brand" aria-label="DOCO Inicio" (click)="closeMobileMenu()">
             <img
               [src]="theme.isLight() ? '/assets/brand/doco-logo-dark.png' : '/assets/brand/doco-logo-light.png'"
@@ -72,10 +62,10 @@ import { WhatsAppService } from '../../core/services/whatsapp.service';
             />
           </form>
 
-          <!-- Audio FX Synthesizer Toggle -->
+          <!-- Audio FX Synthesizer Toggle (Desktop only) -->
           <button
             type="button"
-            class="fx-btn font-mono"
+            class="fx-btn font-mono desktop-only"
             (click)="soundFx.toggle()"
             [class.is-active]="soundFx.isEnabled()"
             title="Activar/Desactivar efectos de sonido"
@@ -83,10 +73,10 @@ import { WhatsAppService } from '../../core/services/whatsapp.service';
             <span>{{ soundFx.isEnabled() ? 'FX: ON' : 'FX: OFF' }}</span>
           </button>
 
-          <!-- Theme White/Dark Toggle -->
+          <!-- Theme White/Dark Toggle (Desktop only) -->
           <button
             type="button"
-            class="theme-btn font-mono"
+            class="theme-btn font-mono desktop-only"
             (click)="toggleTheme()"
             [attr.aria-label]="theme.isLight() ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'"
             title="Alternar entre White Mode y Dark Mode"
@@ -106,6 +96,17 @@ import { WhatsAppService } from '../../core/services/whatsapp.service';
           <button type="button" class="bag-btn font-mono" (click)="cart.openDrawer()" aria-label="Abrir bolsa de compras">
             <span class="bag-btn__label">BOLSA</span>
             <span class="bag-btn__count">{{ cart.itemCount() }}</span>
+          </button>
+
+          <!-- Mobile menu toggle (Mobile only) -->
+          <button
+            type="button"
+            class="mobile-menu-btn font-mono"
+            (click)="toggleMobileMenu()"
+            [attr.aria-expanded]="mobileMenuOpen()"
+            aria-label="Abrir menú de navegación"
+          >
+            <span>{{ mobileMenuOpen() ? '✕' : 'MENÚ' }}</span>
           </button>
         </div>
       </div>
@@ -156,6 +157,8 @@ import { WhatsAppService } from '../../core/services/whatsapp.service';
       overflow: hidden;
       white-space: nowrap;
       border-bottom: 1px solid var(--border-subtle);
+      width: 100%;
+      max-width: 100%;
     }
     .ticker-track {
       display: inline-flex;
@@ -169,6 +172,8 @@ import { WhatsAppService } from '../../core/services/whatsapp.service';
       position: sticky;
       top: 0;
       z-index: 120;
+      width: 100%;
+      max-width: 100%;
       background: var(--bg-glass);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
@@ -180,6 +185,8 @@ import { WhatsAppService } from '../../core/services/whatsapp.service';
       justify-content: space-between;
       gap: 0.9rem;
       min-height: 4.3rem;
+      width: 100%;
+      max-width: 100%;
     }
     .nav-left {
       display: flex;
@@ -445,23 +452,39 @@ import { WhatsAppService } from '../../core/services/whatsapp.service';
       .nav-links,
       .search-box,
       .desktop-only {
-        display: none;
+        display: none !important;
       }
       .mobile-menu-btn {
         display: grid;
       }
-    }
-    @media (max-width: 480px) {
-      .brand__sub {
-        display: none;
+      .nav-inner {
+        min-height: 3.6rem;
       }
-      .theme-btn,
-      .fx-btn {
-        padding: 0.42rem 0.5rem;
-        font-size: 0.65rem;
+    }
+    @media (max-width: 768px) {
+      .brand__sub-row {
+        display: none !important;
+      }
+      .brand__name {
+        font-size: 1.15rem;
+      }
+      .brand__logo {
+        height: 28px;
+      }
+      .nav-inner {
+        min-height: 3.4rem;
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
       }
       .bag-btn {
-        padding: 0.45rem 0.65rem;
+        padding: 0.42rem 0.65rem;
+        font-size: 0.68rem;
+      }
+      .mobile-menu-btn {
+        min-width: 46px;
+        height: 32px;
+        padding: 0 0.5rem;
+        font-size: 0.65rem;
       }
     }
   `]

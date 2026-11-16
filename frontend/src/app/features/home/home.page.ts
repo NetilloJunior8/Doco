@@ -368,6 +368,9 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
       overflow: hidden;
       border-bottom: 1px solid var(--border-subtle);
       background: #09090b;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
     .hero__bg {
       position: absolute;
@@ -407,9 +410,14 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
       justify-content: space-between;
       align-items: flex-end;
       gap: 2.5rem;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
     .hero__content {
       max-width: 780px;
+      width: 100%;
+      box-sizing: border-box;
       color: #f5f3ee;
     }
     .hero__top-meta {
@@ -1113,6 +1121,10 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
       }
       .brand-chip__name {
         font-size: 0.85rem;
+      }
+      .inverted-marquee {
+        margin-top: 3rem;
+        transform: none !important;
       }
     }
   `]

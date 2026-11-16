@@ -161,6 +161,9 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
   `,
   styles: [`
     .catalog-wrap {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
       padding-top: 2.5rem;
       padding-bottom: 5rem;
     }
@@ -168,6 +171,9 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
     .view-toggles {
       display: flex;
@@ -196,9 +202,13 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
       display: flex;
       gap: 0.55rem;
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
       padding-bottom: 0.75rem;
       margin-bottom: 1.25rem;
       scrollbar-width: none;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
     .era-strip::-webkit-scrollbar {
       display: none;

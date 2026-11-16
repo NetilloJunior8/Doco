@@ -67,11 +67,18 @@
 html {
   scroll-behavior: smooth;
   text-rendering: optimizeLegibility;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
   margin: 0;
   padding: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  position: relative;
   background-color: var(--bg-void);
   color: var(--text-bone);
   font-family: var(--font-sans);
@@ -79,7 +86,6 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: clip;
   transition: background-color 0.22s var(--ease-kinetic), color 0.22s var(--ease-kinetic);
 }
 

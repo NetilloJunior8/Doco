@@ -34,10 +34,13 @@ import { DocoWhatsappFloatComponent } from './shared/components/doco-whatsapp-fl
   styles: [`
     .main-stage {
       min-height: 70vh;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
     }
     @media (max-width: 768px) {
       .main-stage {
-        padding-bottom: 60px;
+        padding-bottom: 64px;
       }
     }
   `]

@@ -207,15 +207,23 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
   `,
   styles: [`
     .detail-wrap {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
       padding-top: 2rem;
       padding-bottom: 5rem;
     }
     .detail-nav {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1.5rem;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
       font-size: 0.74rem;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
     .back-link {
       color: var(--text-muted);
@@ -234,6 +242,9 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
       grid-template-columns: 1.05fr 1fr;
       gap: 3rem;
       align-items: start;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
     .gallery__main {
       position: relative;
@@ -531,12 +542,35 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
     }
     @media (max-width: 860px) {
       .detail-wrap {
-        padding-top: 1.25rem;
-        padding-bottom: 7rem;
+        padding-top: 1rem;
+        padding-bottom: 7.5rem;
       }
       .detail-grid {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
+        gap: 1.25rem;
+      }
+      .zoom-hud {
+        display: none !important;
+      }
+      .specs__title {
+        font-size: clamp(1.4rem, 6vw, 1.85rem);
+        margin: 0.35rem 0 0.65rem;
+      }
+      .specs__price {
+        font-size: 1.35rem;
+      }
+      .specs__price-row {
+        margin-bottom: 0.85rem;
+      }
+      .action-stack {
+        display: none;
+      }
+      .specs__table {
+        margin-bottom: 1.25rem;
+      }
+      .specs__table > div {
+        padding: 0.6rem 0;
+        font-size: 0.74rem;
       }
       .trust-pill-grid {
         grid-template-columns: 1fr;

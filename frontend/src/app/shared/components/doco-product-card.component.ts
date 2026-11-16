@@ -105,6 +105,9 @@ import { DocoBadgeComponent } from './doco-badge.component';
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-card);
       overflow: hidden;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
       transition: transform 0.32s var(--ease-kinetic), border-color 0.32s var(--ease-kinetic), box-shadow 0.32s var(--ease-kinetic);
     }
     .card:hover,
