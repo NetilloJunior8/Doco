@@ -222,12 +222,19 @@ import { DocoBadgeComponent } from './doco-badge.component';
       cursor: pointer;
       background: var(--bg-media);
       overflow: hidden;
-      aspect-ratio: 4 / 5;
+      aspect-ratio: 1 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
     }
     .qv-img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      object-position: center;
       transition: transform 0.4s var(--ease-kinetic);
     }
     .qv-media:hover .qv-img {
@@ -475,8 +482,9 @@ import { DocoBadgeComponent } from './doco-badge.component';
         grid-template-columns: 1fr;
       }
       .qv-media {
-        max-height: 280px;
-        aspect-ratio: auto;
+        max-height: 260px;
+        aspect-ratio: 1 / 1;
+        padding: 0.75rem;
       }
       .qv-details {
         padding: 1rem 1.15rem;

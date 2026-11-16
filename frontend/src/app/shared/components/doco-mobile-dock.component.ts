@@ -3,6 +3,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
 import { SoundFxService } from '../../core/services/sound-fx.service';
 import { ThemeService } from '../../core/services/theme.service';
+import { WhatsAppService } from '../../core/services/whatsapp.service';
 
 @Component({
   selector: 'doco-mobile-dock',
@@ -67,27 +68,19 @@ import { ThemeService } from '../../core/services/theme.service';
           <span class="dock-label">BOLSA</span>
         </button>
 
-        <!-- 4. Audio FX Toggle -->
+        <!-- 4. WhatsApp Direct Trigger -->
         <button
           type="button"
-          class="dock-item"
-          [class.is-fx-active]="soundFx.isEnabled()"
-          (click)="soundFx.toggle()"
-          aria-label="Alternar efectos de sonido"
+          class="dock-item dock-item--wa"
+          (click)="openWhatsApp()"
+          aria-label="Atención por WhatsApp DOCO Culiacán"
         >
           <span class="dock-icon">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-              @if (soundFx.isEnabled()) {
-                <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-                <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
-              } @else {
-                <line x1="23" y1="9" x2="17" y2="15" />
-                <line x1="17" y1="9" x2="23" y2="15" />
-              }
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.78 2.72 4.31 3.81.6.26 1.07.42 1.44.54.61.19 1.16.17 1.6.1.49-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.17-.47-.3z"/>
             </svg>
           </span>
-          <span class="dock-label">{{ soundFx.isEnabled() ? 'FX: ON' : 'FX: OFF' }}</span>
+          <span class="dock-label">WHATSAPP</span>
         </button>
 
         <!-- 5. Theme Toggle -->
@@ -191,8 +184,11 @@ import { ThemeService } from '../../core/services/theme.service';
       font-weight: 700;
       letter-spacing: 0.08em;
     }
-    .is-fx-active {
-      color: var(--text-bone);
+    .dock-item--wa {
+      color: #25d366;
+    }
+    .dock-item--wa:hover {
+      color: #2bf075;
     }
     @media (max-width: 768px) {
       .mobile-dock {
@@ -205,10 +201,16 @@ export class DocoMobileDockComponent {
   protected readonly cart = inject(CartService);
   protected readonly theme = inject(ThemeService);
   protected readonly soundFx = inject(SoundFxService);
+  protected readonly whatsapp = inject(WhatsAppService);
 
   protected openBag(): void {
     this.soundFx.playChime();
     this.cart.openDrawer();
+  }
+
+  protected openWhatsApp(): void {
+    this.soundFx.playClick();
+    this.whatsapp.openUrl(this.whatsapp.generateGeneralInquiryUrl());
   }
 
   protected toggleTheme(): void {

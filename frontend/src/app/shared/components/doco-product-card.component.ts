@@ -115,19 +115,25 @@ import { DocoBadgeComponent } from './doco-badge.component';
     }
     .card__media-wrap {
       position: relative;
-      display: block;
-      aspect-ratio: 4 / 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      aspect-ratio: 1 / 1;
       background: var(--bg-media);
       overflow: hidden;
+      padding: 0.75rem;
     }
     .card__img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      object-position: center;
       transition: transform 0.65s var(--ease-kinetic), filter 0.35s ease;
     }
     .card:hover .card__img {
-      transform: scale(1.1);
+      transform: scale(1.06);
     }
     .card--sold-out .card__img {
       filter: grayscale(0.85) brightness(0.55);
@@ -318,30 +324,37 @@ import { DocoBadgeComponent } from './doco-badge.component';
       opacity: 0.4;
       border-color: var(--border-subtle);
     }
-    @media (max-width: 640px) {
+    @media (max-width: 768px) {
+      .card:hover {
+        transform: none;
+      }
+      .card__media-wrap {
+        padding: 0.5rem;
+      }
       .card__overlay-actions {
-        opacity: 1;
-        transform: translateY(0);
-        bottom: 0.4rem;
+        display: none !important;
+      }
+      .card__top-badges {
+        top: 0.4rem;
         left: 0.4rem;
+        gap: 0.2rem;
+        max-width: 65%;
+      }
+      .card__size {
+        top: 0.4rem;
         right: 0.4rem;
-      }
-      .card__zoom-hint {
-        display: none;
-      }
-      .card__quick-btn {
-        padding: 0.32rem 0.45rem;
-        font-size: 0.62rem;
+        font-size: 0.58rem;
+        padding: 0.12rem 0.38rem;
       }
       .card__body {
-        padding: 0.7rem;
+        padding: 0.65rem 0.75rem;
         gap: 0.35rem;
       }
       .card__cond {
         display: none;
       }
       .card__title {
-        font-size: 0.82rem;
+        font-size: 0.84rem;
         line-height: 1.25;
       }
       .card__footer {
@@ -352,11 +365,12 @@ import { DocoBadgeComponent } from './doco-badge.component';
         padding-top: 0.45rem;
       }
       .card__price {
-        font-size: 0.85rem;
+        font-size: 0.88rem;
       }
       .card__add {
-        padding: 0.42rem 0.65rem;
-        font-size: 0.66rem;
+        min-height: 34px;
+        padding: 0.42rem 0.7rem;
+        font-size: 0.68rem;
         letter-spacing: 0.06em;
       }
     }

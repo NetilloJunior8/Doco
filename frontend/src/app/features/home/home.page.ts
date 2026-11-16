@@ -70,24 +70,10 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
             </a>
           </div>
 
-          <!-- Mobile Compact Telemetry HUD (Shown on mobile devices) -->
-          <div class="mobile-telemetry font-mono">
-            <div class="tele-item">
-              <span class="tele-k">DROP</span>
-              <strong class="tele-v">#01 VAULT</strong>
-            </div>
-            <div class="tele-item">
-              <span class="tele-k">ZONA</span>
-              <strong class="tele-v">CULIACÁN, SIN</strong>
-            </div>
-            <div class="tele-item">
-              <span class="tele-k">INVENTARIO</span>
-              <strong class="tele-v">1-OF-1 REAL</strong>
-            </div>
-            <div class="tele-item">
-              <span class="tele-k">PAGOS</span>
-              <strong class="tele-v">SPEI & OXXO</strong>
-            </div>
+          <!-- Mobile Compact Meta Strip -->
+          <div class="mobile-meta-strip font-mono">
+            <span class="meta-dot"></span>
+            <span>CULIACÁN // ARCHIVE DROP #01 // SPEI & OXXO</span>
           </div>
         </div>
 
@@ -538,32 +524,26 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
       background: rgba(245, 243, 238, 0.08);
       transform: translateY(-2px);
     }
-    .mobile-telemetry {
+    .mobile-meta-strip {
       display: none;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.5rem;
-      margin-top: 1.75rem;
-      padding: 0.75rem;
-      background: rgba(12, 12, 16, 0.88);
+      align-items: center;
+      gap: 0.55rem;
+      margin-top: 1.25rem;
+      padding: 0.55rem 0.85rem;
+      background: rgba(18, 18, 22, 0.88);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-sharp);
-      backdrop-filter: blur(12px);
-    }
-    .tele-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.15rem;
-      text-align: center;
-    }
-    .tele-k {
-      font-size: 0.6rem;
+      font-size: 0.68rem;
       color: var(--text-muted);
       letter-spacing: 0.1em;
     }
-    .tele-v {
-      font-size: 0.7rem;
-      color: var(--text-bone);
-      letter-spacing: 0.04em;
+    .meta-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+      box-shadow: 0 0 6px var(--accent-emerald);
+      flex-shrink: 0;
     }
     .hero__spec-card {
       width: 275px;
@@ -856,8 +836,10 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
     }
     .editorial-frame img {
       width: 100%;
-      aspect-ratio: 4 / 5;
-      object-fit: cover;
+      height: auto;
+      max-height: 480px;
+      object-fit: contain;
+      background: var(--bg-media);
       transition: transform 0.65s var(--ease-kinetic);
     }
     .editorial-frame:hover img {
@@ -1025,8 +1007,8 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
       .floating-stickers {
         display: none;
       }
-      .mobile-telemetry {
-        display: grid;
+      .mobile-meta-strip {
+        display: inline-flex;
       }
       .trust-ribbon__grid {
         grid-template-columns: 1fr 1fr;
@@ -1043,57 +1025,94 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
         grid-template-columns: 1fr;
         padding: 1.5rem;
       }
+      .lookbook-hotspots {
+        position: static;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+        padding: 0.65rem 0.75rem;
+        background: var(--bg-surface);
+        border-top: 1px solid var(--border-subtle);
+      }
     }
     @media (max-width: 640px) {
       .hero {
-        min-height: 520px;
-        padding: 3.5rem 0 2.5rem;
+        min-height: auto;
+        padding: 2.25rem 0 1.75rem;
+      }
+      .hero__top-meta {
+        margin-bottom: 0.75rem;
+        gap: 0.5rem;
+      }
+      .hero__coords {
+        font-size: 0.65rem;
       }
       .hero__title {
-        font-size: 2.7rem;
+        font-size: clamp(2rem, 8.5vw, 2.5rem);
+        margin-bottom: 0.65rem;
+      }
+      .hero__subtitle {
+        font-size: 0.88rem;
+        line-height: 1.45;
+        margin-bottom: 1.25rem;
       }
       .hero__actions {
         flex-direction: column;
         align-items: stretch;
+        gap: 0.65rem;
       }
       .hero__actions a {
         width: 100%;
         text-align: center;
         justify-content: center;
-      }
-      .mobile-telemetry {
-        grid-template-columns: 1fr 1fr;
-        gap: 0.65rem;
+        padding: 0.75rem 1rem;
       }
       .section-block {
-        margin-top: 3.5rem;
+        margin-top: 3rem;
       }
       .trust-ribbon__grid {
-        grid-template-columns: 1fr;
-        gap: 0.85rem;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        padding: 1rem 0;
+      }
+      .trust-card {
+        padding: 0.35rem 0;
       }
       .cat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 0.75rem;
       }
+      .cat-tile {
+        aspect-ratio: 1 / 1;
+      }
+      .cat-tile__overlay {
+        padding: 0.85rem;
+      }
       .cat-tile__name {
-        font-size: 1rem;
+        font-size: 0.95rem;
+        margin-bottom: 0.25rem;
       }
       .product-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 0.75rem;
       }
+      .editorial-split {
+        padding: 1rem;
+      }
       .editorial-gallery {
         grid-template-columns: 1fr;
+        gap: 0.75rem;
       }
       .brand-strip {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 0.65rem;
+        gap: 0.5rem;
       }
       .brand-chip {
-        padding: 0.95rem;
+        padding: 0.75rem;
       }
       .brand-chip__name {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
       }
     }
   `]

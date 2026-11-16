@@ -237,12 +237,16 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
     }
     .gallery__main {
       position: relative;
-      aspect-ratio: 4 / 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      aspect-ratio: 1 / 1;
       background: var(--bg-media);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-card);
       overflow: hidden;
       cursor: zoom-in;
+      padding: 1.25rem;
     }
     .gallery__main.is-zooming {
       cursor: crosshair;
@@ -250,7 +254,10 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
     .gallery__main img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      object-position: center;
       transition: transform 0.15s ease-out;
       will-change: transform;
     }
@@ -276,14 +283,17 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
     }
     .thumb {
       cursor: pointer;
-      width: 76px;
-      height: 95px;
-      padding: 0;
+      width: 68px;
+      height: 68px;
+      padding: 0.25rem;
       border: 1px solid var(--border-subtle);
-      background: var(--bg-surface);
+      background: var(--bg-media);
       overflow: hidden;
       border-radius: var(--radius-sharp);
       transition: border-color 0.18s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .thumb.is-active {
       border-color: var(--text-bone);
@@ -292,7 +302,7 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
     .thumb img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
     }
     .archival-authenticity {
       margin-top: 1rem;
@@ -520,9 +530,13 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
       to { opacity: 1; }
     }
     @media (max-width: 860px) {
+      .detail-wrap {
+        padding-top: 1.25rem;
+        padding-bottom: 7rem;
+      }
       .detail-grid {
         grid-template-columns: 1fr;
-        gap: 1.75rem;
+        gap: 1.5rem;
       }
       .trust-pill-grid {
         grid-template-columns: 1fr;
@@ -532,16 +546,15 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
         left: 0;
         right: 0;
         bottom: 0;
-        z-index: 160;
+        z-index: 190;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 0.85rem;
-        padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
-        background: var(--bg-glass);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
+        gap: 0.75rem;
+        padding: 0.75rem 1rem max(0.75rem, env(safe-area-inset-bottom));
+        background: var(--bg-surface);
         border-top: 1px solid var(--border-strong);
+        box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.45);
       }
       .mobile-buy-bar__price {
         display: flex;

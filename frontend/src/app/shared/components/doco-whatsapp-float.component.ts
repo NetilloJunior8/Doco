@@ -196,17 +196,7 @@ import { WhatsAppService } from '../../core/services/whatsapp.service';
     }
     @media (max-width: 768px) {
       .wa-float-container {
-        right: 1rem;
-        bottom: calc(68px + env(safe-area-inset-bottom));
-      }
-      .wa-label {
-        display: none;
-      }
-      .wa-trigger-btn {
-        padding: 0.85rem;
-      }
-      .wa-popover {
-        width: min(290px, calc(100vw - 2rem));
+        display: none !important;
       }
     }
   `]

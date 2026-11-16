@@ -305,16 +305,23 @@ import { formatMxn } from '../../core/utils/formatters';
     .bag-item__media {
       position: relative;
       width: 84px;
-      height: 105px;
+      height: 84px;
       border-radius: var(--radius-sharp);
       overflow: hidden;
       background: var(--bg-media);
       border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.35rem;
     }
     .bag-item__img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      object-position: center;
     }
     .bag-item__size {
       position: absolute;

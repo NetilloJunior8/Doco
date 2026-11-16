@@ -356,6 +356,10 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
       }
     }
     @media (max-width: 640px) {
+      .catalog-wrap {
+        padding-top: 1.25rem;
+        padding-bottom: 5.5rem;
+      }
       .filter-bar.is-open {
         grid-template-columns: 1fr;
       }
