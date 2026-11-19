@@ -16,7 +16,7 @@ import { WhatsAppService } from '../../core/services/whatsapp.service';
               <span class="status-dot"></span>
               <strong>DOCO VAULT // CULIACÁN</strong>
             </div>
-            <button type="button" class="close-popover" (click)="toggle()">✕</button>
+            <button type="button" class="close-popover" (click)="toggle()">[X]</button>
           </div>
 
           <p class="popover-text">

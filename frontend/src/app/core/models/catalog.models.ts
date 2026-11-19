@@ -44,6 +44,8 @@ export interface ProductSummary {
   brandName: string;
   brandSlug: string;
   primaryImageUrl: string | null;
+  secondaryImageUrl?: string | null;
+  imagesCount?: number;
 }
 
 export interface ProductImage {

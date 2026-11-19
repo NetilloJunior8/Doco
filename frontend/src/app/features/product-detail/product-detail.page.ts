@@ -190,7 +190,7 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
                 <button type="button" (click)="toggleLightboxScale()">
                   {{ lightboxScale() === 1 ? 'ZOOM 2X' : 'ZOOM 1X' }}
                 </button>
-                <button type="button" (click)="lightboxOpen.set(false)">CERRAR ✕</button>
+                <button type="button" (click)="lightboxOpen.set(false)">CERRAR [X]</button>
               </div>
             </div>
             <div class="lightbox__stage" (click)="$event.stopPropagation()">

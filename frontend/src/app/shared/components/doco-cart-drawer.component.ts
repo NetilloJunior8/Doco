@@ -18,7 +18,7 @@ import { formatMxn } from '../../core/utils/formatters';
             <span class="font-mono drawer__eyebrow">// FLIGHT CASE ARCHIVE</span>
             <h2 class="font-display drawer__title">TU BOLSA ({{ cart.itemCount() }})</h2>
           </div>
-          <button type="button" class="drawer__close font-mono" (click)="cart.closeDrawer()" aria-label="Cerrar bolsa">✕</button>
+          <button type="button" class="drawer__close font-mono" (click)="cart.closeDrawer()" aria-label="Cerrar bolsa">X</button>
         </header>
 
         <!-- Dynamic Free Shipping Meter -->

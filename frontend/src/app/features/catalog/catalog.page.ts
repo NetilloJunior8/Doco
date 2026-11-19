@@ -65,7 +65,7 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
           ARCHIVE
         </button>
         <button type="button" class="era-chip mobile-filter-toggle" (click)="toggleFilters()">
-          {{ filtersExpanded() ? '▲ OCULTAR' : '▼ FILTROS & ORDEN' }}
+          {{ filtersExpanded() ? '[-] OCULTAR' : '[+] FILTROS & ORDEN' }}
         </button>
       </div>
 
@@ -134,7 +134,7 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
           [class.product-grid--editorial]="viewMode() === 'editorial'"
         >
           @for (item of data.items; track item.id) {
-            <doco-product-card [product]="item" (addToBag)="cart.addItem($event)" />
+            <doco-product-card [product]="item" />
           }
         </div>
 

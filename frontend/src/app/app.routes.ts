@@ -8,7 +8,7 @@ export const routes: Routes = [
   },
   {
     path: 'catalog',
-    loadComponent: () => import('./features/catalog/catalog.page').then((m) => m.CatalogPageComponent)
+    redirectTo: ''
   },
   {
     path: 'piece/:slug',

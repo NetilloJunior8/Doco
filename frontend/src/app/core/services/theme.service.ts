@@ -17,7 +17,7 @@ export class ThemeService {
       document.documentElement.setAttribute('data-theme', current);
       const metaTheme = document.querySelector('meta[name="theme-color"]');
       if (metaTheme) {
-        metaTheme.setAttribute('content', current === 'light' ? '#f7f5f0' : '#09090b');
+        metaTheme.setAttribute('content', current === 'light' ? '#ffffff' : '#000000');
       }
       try {
         localStorage.setItem(THEME_STORAGE_KEY, current);

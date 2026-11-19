@@ -1,11 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { DocoCartDrawerComponent } from './shared/components/doco-cart-drawer.component';
-import { DocoFooterComponent } from './shared/components/doco-footer.component';
-import { DocoMobileDockComponent } from './shared/components/doco-mobile-dock.component';
 import { DocoNavbarComponent } from './shared/components/doco-navbar.component';
 import { DocoQuickViewComponent } from './shared/components/doco-quick-view.component';
-import { DocoWhatsappFloatComponent } from './shared/components/doco-whatsapp-float.component';
 
 @Component({
   selector: 'doco-root',
@@ -14,9 +11,6 @@ import { DocoWhatsappFloatComponent } from './shared/components/doco-whatsapp-fl
     RouterOutlet,
     DocoNavbarComponent,
     DocoCartDrawerComponent,
-    DocoFooterComponent,
-    DocoWhatsappFloatComponent,
-    DocoMobileDockComponent,
     DocoQuickViewComponent
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,24 +20,28 @@ import { DocoWhatsappFloatComponent } from './shared/components/doco-whatsapp-fl
       <router-outlet />
     </main>
     <doco-cart-drawer />
-    <doco-footer />
-    <doco-whatsapp-float />
-    <doco-mobile-dock />
     <doco-quick-view />
   `,
   styles: [`
-    .main-stage {
-      min-height: 70vh;
+    :host {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
       width: 100%;
-      max-width: 100%;
-      overflow-x: hidden;
+      max-width: 100vw;
+      overflow-x: clip;
+      background: var(--bg-void);
+      color: var(--text-bone);
     }
-    @media (max-width: 768px) {
-      .main-stage {
-        padding-bottom: 64px;
-      }
+
+    .main-stage {
+      flex: 1;
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: clip;
+      display: flex;
+      flex-direction: column;
     }
   `]
 })
 export class AppComponent {}
-
