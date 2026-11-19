@@ -1249,8 +1249,8 @@ export function toProductSummary(detail: ProductDetail): ProductSummary {
     categorySlug: detail.category.slug,
     brandName: detail.brand.name,
     brandSlug: detail.brand.slug,
-    primaryImageUrl: detail.images[0]?.imageUrl ?? null,
-    secondaryImageUrl: detail.images[1]?.imageUrl ?? null,
+    primaryImageUrl: detail.images[0]?.imageUrl ? detail.images[0].imageUrl.replace('.webp', '_cutout.webp') : null,
+    secondaryImageUrl: detail.images[1]?.imageUrl ? detail.images[1].imageUrl.replace('.webp', '_cutout.webp') : null,
     imagesCount: detail.images.length
   };
 }

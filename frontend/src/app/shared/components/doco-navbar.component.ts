@@ -14,130 +14,94 @@ import { ThemeService } from '../../core/services/theme.service';
   imports: [RouterLink, FormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <header class="arch-nav" [class.arch-nav--open]="archiveView.isFilterOpen()">
-      <div class="arch-nav__inner font-mono">
-        <!-- LEFT: FILTER TOGGLE -->
-        <div class="arch-nav__left">
+    <header class="yeezy-nav" [class.is-open]="archiveView.isFilterOpen()">
+      <div class="yeezy-nav__inner">
+        <!-- TOP LEFT: PLUS SYMBOL (+) -->
+        <div class="yeezy-nav__left">
           <button
             type="button"
-            class="nav-btn nav-btn--filter"
-            [class.is-active]="archiveView.isFilterOpen() || archiveView.selectedCategory() || archiveView.selectedBrand()"
+            class="yeezy-plus-btn font-mono"
+            [class.is-active]="archiveView.isFilterOpen()"
             (click)="toggleFilters()"
-            aria-label="Abrir filtros del archivo"
+            aria-label="Abrir filtros de categorías y búsqueda"
+            title="Filtros y categorías"
           >
-            <span class="btn-sign">{{ archiveView.isFilterOpen() ? '−' : '+' }}</span>
-            <span>FILTRO{{ activeFilterCount() ? ' (' + activeFilterCount() + ')' : '' }}</span>
+            <span class="plus-icon">{{ archiveView.isFilterOpen() ? '−' : '+' }}</span>
           </button>
         </div>
 
-        <!-- CENTER: DISCREET DOCO LOGO -->
-        <div class="arch-nav__center">
-          <a routerLink="/" class="arch-brand" (click)="onLogoClick($event)" aria-label="DOCO Archivo">
+        <!-- TOP CENTER: DISCREET SMALL DOCO LOGO -->
+        <div class="yeezy-nav__center">
+          <a routerLink="/" class="yeezy-brand" (click)="onLogoClick($event)" aria-label="DOCO">
             <img
               [src]="theme.isLight() ? '/assets/brand/doco-logo-dark.png' : '/assets/brand/doco-logo-light.png'"
               alt="DOCO"
-              class="arch-logo"
+              class="yeezy-logo"
             />
-            <span class="arch-tag">ARCHIVE</span>
           </a>
         </div>
 
-        <!-- RIGHT: UTILITIES (DENSITY, BAG, THEME, INFO) -->
-        <div class="arch-nav__right">
-          <!-- Density Switcher (Desktop/Tablet) -->
-          <div class="density-group">
-            <button
-              type="button"
-              class="density-btn"
-              [class.is-active]="archiveView.density() === 'S'"
-              (click)="setDensity('S')"
-              title="Vista compacta (alta densidad)"
-            >
-              S
-            </button>
-            <button
-              type="button"
-              class="density-btn"
-              [class.is-active]="archiveView.density() === 'M'"
-              (click)="setDensity('M')"
-              title="Vista estándar"
-            >
-              M
-            </button>
-            <button
-              type="button"
-              class="density-btn"
-              [class.is-active]="archiveView.density() === 'L'"
-              (click)="setDensity('L')"
-              title="Vista editorial (grande)"
-            >
-              L
-            </button>
-          </div>
-
+        <!-- TOP RIGHT: THEME TOGGLE & SHOPPING BAG ICON -->
+        <div class="yeezy-nav__right font-mono">
           <!-- Theme Toggle -->
           <button
             type="button"
-            class="nav-btn nav-btn--theme"
+            class="yeezy-theme-btn"
             (click)="toggleTheme()"
-            aria-label="Cambiar modo de color"
-            title="Alternar modo claro / oscuro"
+            aria-label="Cambiar tema de color"
+            title="Alternar blanco y negro"
           >
             {{ theme.isLight() ? 'DARK' : 'WHITE' }}
           </button>
 
-          <!-- Info Dialog Trigger -->
+          <!-- Minimal Yeezy Shopping Bag Icon -->
           <button
             type="button"
-            class="nav-btn nav-btn--info"
-            (click)="toggleInfo()"
-            aria-label="Información sobre DOCO en Culiacán"
-          >
-            INFO
-          </button>
-
-          <!-- Cart Drawer Trigger -->
-          <button
-            type="button"
-            class="nav-btn nav-btn--bag"
+            class="yeezy-bag-btn"
             (click)="openCart()"
             aria-label="Abrir bolsa de compras"
+            title="Bolsa de compras"
           >
-            BOLSA ({{ cart.itemCount() }})
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" class="bag-svg">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <path d="M16 10a4 4 0 0 1-8 0" />
+            </svg>
+            <span class="bag-count">({{ cart.itemCount() }})</span>
           </button>
 
           @if (auth.isAdmin()) {
-            <a routerLink="/admin" class="nav-btn nav-btn--admin">ADMIN</a>
+            <a routerLink="/admin" class="yeezy-admin-link">ADMIN</a>
           }
         </div>
       </div>
 
-      <!-- MINIMALIST EXPANDABLE FILTER DRAWER -->
+      <!-- EXPANDABLE MINIMALIST SEARCH & CATEGORIES DRAWER -->
       @if (archiveView.isFilterOpen()) {
-        <div class="arch-filters font-mono">
-          <div class="filters-inner">
-            <!-- Search field -->
-            <div class="filter-search-row">
-              <span class="search-prefix">BUSCAR:</span>
+        <div class="yeezy-filter-drawer font-mono">
+          <div class="filter-drawer-inner">
+            <!-- Search bar -->
+            <div class="drawer-search-row">
+              <span class="search-label">BUSCAR:</span>
               <input
                 type="search"
-                class="filter-search-input font-mono"
-                placeholder="Nombre, marca, SKU o palabra clave..."
+                class="drawer-search-input font-mono"
+                placeholder="Nombre, marca, SKU o estilo..."
                 [ngModel]="archiveView.searchQuery()"
                 (ngModelChange)="archiveView.setSearch($event)"
               />
               @if (archiveView.searchQuery()) {
-                <button type="button" class="clear-search-btn" (click)="archiveView.setSearch('')">X</button>
+                <button type="button" class="clear-btn" (click)="archiveView.setSearch('')">[X]</button>
               }
             </div>
 
             <!-- Categories -->
-            <div class="filter-section">
-              <span class="filter-label">CATEGORÍA:</span>
-              <div class="filter-pills">
+            <div class="drawer-row">
+              <span class="row-label">CATEGORÍA:</span>
+              <div class="row-items">
                 <button
                   type="button"
-                  class="pill-btn"
+                  class="filter-pill"
                   [class.is-active]="!archiveView.selectedCategory()"
                   (click)="archiveView.selectCategory(null)"
                 >
@@ -146,7 +110,7 @@ import { ThemeService } from '../../core/services/theme.service';
                 @for (cat of categories; track cat.id) {
                   <button
                     type="button"
-                    class="pill-btn"
+                    class="filter-pill"
                     [class.is-active]="archiveView.selectedCategory() === cat.slug"
                     (click)="archiveView.selectCategory(cat.slug)"
                   >
@@ -157,12 +121,12 @@ import { ThemeService } from '../../core/services/theme.service';
             </div>
 
             <!-- Brands -->
-            <div class="filter-section">
-              <span class="filter-label">MARCA:</span>
-              <div class="filter-pills">
+            <div class="drawer-row">
+              <span class="row-label">MARCA:</span>
+              <div class="row-items">
                 <button
                   type="button"
-                  class="pill-btn"
+                  class="filter-pill"
                   [class.is-active]="!archiveView.selectedBrand()"
                   (click)="archiveView.selectBrand(null)"
                 >
@@ -171,7 +135,7 @@ import { ThemeService } from '../../core/services/theme.service';
                 @for (br of brands; track br.id) {
                   <button
                     type="button"
-                    class="pill-btn"
+                    class="filter-pill"
                     [class.is-active]="archiveView.selectedBrand() === br.slug"
                     (click)="archiveView.selectBrand(br.slug)"
                   >
@@ -181,240 +145,170 @@ import { ThemeService } from '../../core/services/theme.service';
               </div>
             </div>
 
-            <div class="filter-actions-row">
-              <button
-                type="button"
-                class="reset-btn"
-                (click)="archiveView.resetFilters()"
-              >
+            <!-- Footer actions -->
+            <div class="drawer-actions">
+              <button type="button" class="action-btn" (click)="archiveView.resetFilters()">
                 [ REINICIAR FILTROS ]
               </button>
-              <button
-                type="button"
-                class="apply-btn"
-                (click)="archiveView.closeFilters()"
-              >
-                [ CERRAR FILTROS ]
+              <button type="button" class="action-btn" (click)="archiveView.closeFilters()">
+                [ CERRAR ]
               </button>
             </div>
           </div>
         </div>
       }
     </header>
-
-    <!-- MINIMALIST INFO MODAL (CULIACÁN MANIFESTO) -->
-    @if (archiveView.isInfoOpen()) {
-      <div class="info-overlay" (click)="onInfoBackdropClick($event)">
-        <div class="info-dialog font-mono" role="dialog" aria-modal="true" aria-label="Información DOCO Archive">
-          <div class="info-head">
-            <span class="info-tag">// ARCHIVO DOCO</span>
-            <button type="button" class="info-close" (click)="archiveView.closeInfo()">[X] ESC</button>
-          </div>
-
-          <div class="info-body">
-            <h3 class="info-title font-display">DOCO ARCHIVE</h3>
-            <p class="info-desc">
-              Archivo independiente de streetwear curado y piezas vintage 1-of-1 con base en Culiacán, Sinaloa. Cada prenda pasa por un proceso de verificación física de autenticidad, condición del tejido y conservación de gráficos originales.
-            </p>
-
-            <div class="info-grid">
-              <div class="info-row">
-                <span class="row-k">BASE:</span>
-                <strong class="row-v">CULIACÁN, SINALOA, MÉXICO</strong>
-              </div>
-              <div class="info-row">
-                <span class="row-k">ENTREGAS:</span>
-                <strong class="row-v">PUNTOS CLAVE EN CULIACÁN & ENVÍOS</strong>
-              </div>
-              <div class="info-row">
-                <span class="row-k">PAGOS:</span>
-                <strong class="row-v">EFECTIVO AL RECIBIR, SPEI DIRECTO, OXXO</strong>
-              </div>
-              <div class="info-row">
-                <span class="row-k">APARTADOS:</span>
-                <strong class="row-v">30% DE ANTICIPO VÍA WHATSAPP</strong>
-              </div>
-              <div class="info-row">
-                <span class="row-k">CONTACTO:</span>
-                <strong class="row-v">+52 667 203 3174</strong>
-              </div>
-            </div>
-
-            <div class="info-actions">
-              <button
-                type="button"
-                class="info-wa-btn"
-                (click)="openWhatsAppContact()"
-              >
-                <span>CONTACTAR POR WHATSAPP</span>
-                <span>↗</span>
-              </button>
-              <button
-                type="button"
-                class="info-intro-btn"
-                (click)="reopenIntro()"
-              >
-                <span>VER INTRO DOCO</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    }
   `,
   styles: [`
-    .arch-nav {
+    .yeezy-nav {
       position: sticky;
       top: 0;
       left: 0;
       right: 0;
       z-index: 1000;
-      background: var(--bg-glass);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border-subtle);
+      background: var(--bg-void);
       width: 100%;
       box-sizing: border-box;
-      transition: background 0.2s ease, border-color 0.2s ease;
+      transition: background 0.15s ease;
     }
 
-    .arch-nav__inner {
+    .yeezy-nav__inner {
       display: flex;
       justify-content: space-between;
       align-items: center;
       height: 48px;
-      padding: 0 clamp(0.75rem, 2.5vw, 1.75rem);
-      font-size: 0.72rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      box-sizing: border-box;
+      padding: 0 clamp(1rem, 3vw, 2.5rem);
       width: 100%;
+      box-sizing: border-box;
     }
 
-    .arch-nav__left {
+    .yeezy-nav__left {
       display: flex;
       align-items: center;
       flex: 1;
     }
 
-    .arch-nav__center {
+    .yeezy-plus-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-bone);
+      cursor: pointer;
+      font-size: 1.5rem;
+      line-height: 1;
+      padding: 0.25rem 0.5rem 0.25rem 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    .yeezy-plus-btn:hover {
+      opacity: 0.7;
+      transform: scale(1.08);
+    }
+
+    .plus-icon {
+      font-weight: 300;
+    }
+
+    .yeezy-nav__center {
       display: flex;
       align-items: center;
       justify-content: center;
       flex: 1;
     }
 
-    .arch-brand {
+    .yeezy-brand {
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
+      justify-content: center;
       text-decoration: none;
-      color: var(--text-bone);
+      cursor: pointer;
     }
 
-    .arch-logo {
-      height: 19px;
+    .yeezy-logo {
+      height: 18px;
       width: auto;
       object-fit: contain;
       display: block;
+      transition: opacity 0.15s ease;
     }
 
-    .arch-tag {
-      font-size: 0.62rem;
-      letter-spacing: 0.12em;
-      color: var(--text-muted);
-      display: none;
+    .yeezy-logo:hover {
+      opacity: 0.8;
     }
 
-    @media (min-width: 640px) {
-      .arch-tag {
-        display: inline;
-      }
-    }
-
-    .arch-nav__right {
+    .yeezy-nav__right {
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      gap: clamp(0.4rem, 1.2vw, 1rem);
+      gap: 1.25rem;
       flex: 1;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
-    .nav-btn {
+    .yeezy-theme-btn {
       background: transparent;
       border: none;
       color: var(--text-bone);
       cursor: pointer;
       font-size: 0.72rem;
       letter-spacing: 0.08em;
-      padding: 0.35rem 0.5rem;
-      white-space: nowrap;
-      transition: color 0.15s ease, opacity 0.15s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
+      padding: 0.25rem 0.4rem;
+      transition: opacity 0.15s ease;
     }
 
-    .nav-btn:hover {
-      opacity: 0.75;
+    .yeezy-theme-btn:hover {
+      opacity: 0.7;
     }
 
-    .nav-btn--filter.is-active {
-      color: var(--text-bone);
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
-
-    .nav-btn--bag {
-      font-weight: 600;
-    }
-
-    .density-group {
-      display: none;
-      align-items: center;
-      gap: 2px;
-      border: 1px solid var(--border-subtle);
-      padding: 2px;
-      background: var(--bg-surface);
-    }
-
-    @media (min-width: 768px) {
-      .density-group {
-        display: flex;
-      }
-    }
-
-    .density-btn {
+    .yeezy-bag-btn {
       background: transparent;
       border: none;
-      color: var(--text-muted);
+      color: var(--text-bone);
       cursor: pointer;
-      font-size: 0.65rem;
-      font-weight: 600;
-      padding: 0.2rem 0.45rem;
-      line-height: 1;
-      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0;
+      transition: opacity 0.15s ease;
     }
 
-    .density-btn.is-active {
-      background: var(--text-bone);
-      color: var(--bg-void);
+    .yeezy-bag-btn:hover {
+      opacity: 0.7;
+    }
+
+    .bag-svg {
+      display: block;
+    }
+
+    .bag-count {
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .yeezy-admin-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.7rem;
     }
 
     /* EXPANDABLE FILTER DRAWER */
-    .arch-filters {
+    .yeezy-filter-drawer {
       background: var(--bg-void);
       border-top: 1px solid var(--border-subtle);
       border-bottom: 1px solid var(--border-strong);
-      padding: 1.25rem clamp(0.75rem, 2.5vw, 1.75rem);
+      padding: 1.25rem clamp(1rem, 3vw, 2.5rem);
       box-sizing: border-box;
-      animation: filterSlide 0.18s cubic-bezier(0.2, 0.9, 0.3, 1);
+      animation: yeezyFilterIn 0.16s ease-out;
     }
 
-    @keyframes filterSlide {
+    @keyframes yeezyFilterIn {
       from {
         opacity: 0;
-        transform: translateY(-6px);
+        transform: translateY(-4px);
       }
       to {
         opacity: 1;
@@ -422,95 +316,95 @@ import { ThemeService } from '../../core/services/theme.service';
       }
     }
 
-    .filters-inner {
+    .filter-drawer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      max-width: 1200px;
-      margin: 0 auto;
     }
 
-    .filter-search-row {
+    .drawer-search-row {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.75rem;
       border-bottom: 1px solid var(--border-subtle);
       padding-bottom: 0.5rem;
     }
 
-    .search-prefix {
-      font-size: 0.68rem;
+    .search-label {
+      font-size: 0.7rem;
       color: var(--text-muted);
     }
 
-    .filter-search-input {
+    .drawer-search-input {
       flex: 1;
       background: transparent;
       border: none;
       outline: none;
       color: var(--text-bone);
-      font-size: 0.78rem;
+      font-size: 0.8rem;
     }
 
-    .clear-search-btn {
+    .clear-btn {
       background: transparent;
       border: none;
       color: var(--text-muted);
       cursor: pointer;
-      font-size: 0.72rem;
+      font-size: 0.75rem;
     }
 
-    .filter-section {
+    .drawer-row {
       display: flex;
       flex-direction: column;
-      gap: 0.4rem;
+      gap: 0.5rem;
     }
 
     @media (min-width: 640px) {
-      .filter-section {
+      .drawer-row {
         flex-direction: row;
         align-items: center;
-        gap: 0.85rem;
+        gap: 1rem;
       }
     }
 
-    .filter-label {
-      font-size: 0.65rem;
+    .row-label {
+      font-size: 0.68rem;
       color: var(--text-dim);
-      min-width: 85px;
+      min-width: 90px;
     }
 
-    .filter-pills {
+    .row-items {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.35rem;
+      gap: 0.4rem;
     }
 
-    .pill-btn {
+    .filter-pill {
       background: transparent;
       border: 1px solid var(--border-subtle);
       color: var(--text-muted);
       cursor: pointer;
-      font-size: 0.65rem;
-      letter-spacing: 0.06em;
+      font-size: 0.68rem;
       padding: 0.3rem 0.65rem;
+      letter-spacing: 0.06em;
       transition: all 0.12s ease;
       text-transform: uppercase;
     }
 
-    .pill-btn:hover {
+    .filter-pill:hover {
       border-color: var(--border-strong);
       color: var(--text-bone);
     }
 
-    .pill-btn.is-active {
+    .filter-pill.is-active {
       background: var(--text-bone);
-      border-color: var(--text-bone);
       color: var(--bg-void);
+      border-color: var(--text-bone);
       font-weight: 600;
     }
 
-    .filter-actions-row {
+    .drawer-actions {
       display: flex;
       justify-content: space-between;
       gap: 1rem;
@@ -518,144 +412,18 @@ import { ThemeService } from '../../core/services/theme.service';
       border-top: 1px solid var(--border-subtle);
     }
 
-    .reset-btn,
-    .apply-btn {
+    .action-btn {
       background: transparent;
       border: none;
-      cursor: pointer;
-      font-size: 0.68rem;
-      letter-spacing: 0.08em;
       color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
       padding: 0.25rem 0.5rem;
     }
 
-    .reset-btn:hover,
-    .apply-btn:hover {
+    .action-btn:hover {
       color: var(--text-bone);
-    }
-
-    /* INFO OVERLAY */
-    .info-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 99999;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(6px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      box-sizing: border-box;
-    }
-
-    [data-theme='light'] .info-overlay {
-      background: rgba(255, 255, 255, 0.9);
-    }
-
-    .info-dialog {
-      background: var(--bg-void);
-      border: 1px solid var(--border-strong);
-      width: 100%;
-      max-width: 560px;
-      padding: 1.5rem;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-    }
-
-    .info-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border-subtle);
-      padding-bottom: 0.5rem;
-      font-size: 0.72rem;
-    }
-
-    .info-tag {
-      color: var(--text-muted);
-    }
-
-    .info-close {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-size: 0.72rem;
-    }
-
-    .info-close:hover {
-      color: var(--text-bone);
-    }
-
-    .info-title {
-      font-size: 1.35rem;
-      letter-spacing: -0.02em;
-      color: var(--text-bone);
-      margin: 0 0 0.5rem;
-    }
-
-    .info-desc {
-      font-size: 0.82rem;
-      line-height: 1.5;
-      color: var(--text-secondary);
-      margin: 0;
-      font-family: var(--font-sans);
-    }
-
-    .info-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
-      border: 1px solid var(--border-subtle);
-      background: var(--bg-surface);
-      padding: 0.85rem;
-      font-size: 0.72rem;
-    }
-
-    .info-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-
-    .row-k {
-      color: var(--text-dim);
-    }
-
-    .row-v {
-      color: var(--text-bone);
-      text-align: right;
-    }
-
-    .info-actions {
-      display: flex;
-      gap: 0.65rem;
-    }
-
-    .info-wa-btn {
-      flex: 1;
-      background: var(--text-bone);
-      color: var(--bg-void);
-      border: 1px solid var(--text-bone);
-      padding: 0.75rem 1rem;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 0.76rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      letter-spacing: 0.06em;
-    }
-
-    .info-intro-btn {
-      background: transparent;
-      color: var(--text-bone);
-      border: 1px solid var(--border-subtle);
-      padding: 0.75rem 1rem;
-      cursor: pointer;
-      font-size: 0.74rem;
     }
   `]
 })
@@ -665,18 +433,9 @@ export class DocoNavbarComponent {
   readonly cart = inject(CartService);
   readonly auth = inject(AuthService);
   private readonly soundFx = inject(SoundFxService);
-  private readonly router = inject(Router);
 
   readonly categories = FALLBACK_CATEGORIES;
   readonly brands = FALLBACK_BRANDS;
-
-  activeFilterCount(): number {
-    let count = 0;
-    if (this.archiveView.selectedCategory()) count++;
-    if (this.archiveView.selectedBrand()) count++;
-    if (this.archiveView.searchQuery().trim()) count++;
-    return count;
-  }
 
   toggleFilters(): void {
     this.soundFx.playClick();
@@ -688,46 +447,17 @@ export class DocoNavbarComponent {
     this.theme.toggle();
   }
 
-  toggleInfo(): void {
-    this.soundFx.playClick();
-    this.archiveView.toggleInfo();
-  }
-
   openCart(): void {
     this.soundFx.playClick();
     this.cart.openDrawer();
   }
 
-  setDensity(d: 'S' | 'M' | 'L'): void {
-    this.soundFx.playClick();
-    this.archiveView.setDensity(d);
-  }
-
   onLogoClick(e: Event): void {
     this.soundFx.playClick();
     if (typeof window !== 'undefined' && window.scrollY === 0) {
-      // Re-trigger intro if at top
       this.archiveView.openIntro();
     } else if (typeof window !== 'undefined') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  }
-
-  onInfoBackdropClick(e: MouseEvent): void {
-    if (e.target === e.currentTarget) {
-      this.archiveView.closeInfo();
-    }
-  }
-
-  openWhatsAppContact(): void {
-    if (typeof window !== 'undefined') {
-      const msg = encodeURIComponent('Hola DOCO! Me gustaría consultar disponibilidad de piezas del archivo en Culiacán.');
-      window.open(`https://wa.me/526672033174?text=${msg}`, '_blank', 'noopener,noreferrer');
-    }
-  }
-
-  reopenIntro(): void {
-    this.archiveView.closeInfo();
-    this.archiveView.openIntro();
   }
 }

@@ -16,10 +16,15 @@ dist/
 frontend/.angular/
 .angular/
 
-# Raw upload dumps
+# Raw upload dumps & scratch scripts
 catalogo-*/
 *.heic
 *.HEIC
+generate_yeezy_archive.py
+process_cutouts.py
+process_yeezy_archive.py
+check_emojis.py
+
 
 *.log
 npm-debug.log*

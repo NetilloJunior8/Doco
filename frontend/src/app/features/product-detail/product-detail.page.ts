@@ -18,7 +18,7 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
   template: `
     <section class="doco-container detail-wrap">
       <nav class="detail-nav font-mono">
-        <a routerLink="/catalog" class="back-link">← VOLVER AL CATÁLOGO</a>
+        <a routerLink="/" class="back-link">‹ VOLVER AL ARCHIVO</a>
         <span class="detail-path">// {{ piece()?.category?.name || 'ARCHIVO' }} // {{ piece()?.sku || '' }}</span>
       </nav>
 

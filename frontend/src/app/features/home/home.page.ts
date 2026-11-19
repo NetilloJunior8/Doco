@@ -9,11 +9,11 @@ import { ProductSummary } from '../../core/models/catalog.models';
 import { ArchiveViewService } from '../../core/services/archive-view.service';
 import {
   FALLBACK_PRODUCTS,
-  filterFallbackProducts,
   toProductSummary
 } from '../../core/services/catalog.fallback.data';
 import { SoundFxService } from '../../core/services/sound-fx.service';
 import { ThemeService } from '../../core/services/theme.service';
+import { WhatsAppService } from '../../core/services/whatsapp.service';
 import { DocoProductCardComponent } from '../../shared/components/doco-product-card.component';
 
 @Component({
@@ -22,92 +22,178 @@ import { DocoProductCardComponent } from '../../shared/components/doco-product-c
   imports: [DocoProductCardComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <!-- CINEMATIC INTRO OVERLAY (YEEZY STYLE PORTAL) -->
+    <!-- CINEMATIC INTRO PORTAL (CLICK ON DOCO LOGO TO ENTER) -->
     @if (archiveView.isIntroOpen()) {
       <div
-        class="intro-portal"
+        class="yeezy-intro"
         [class.is-leaving]="introLeaving()"
-        (click)="enterArchive()"
-        role="button"
-        tabindex="0"
-        aria-label="Entrar al archivo DOCO"
+        role="dialog"
+        aria-label="Portada de introducción DOCO"
       >
-        <div class="intro-portal__inner">
-          <div class="intro-logo-box">
+        <div class="intro-box">
+          <!-- User clicks directly on the logo to enter -->
+          <div
+            class="intro-logo-trigger"
+            (click)="enterArchive()"
+            role="button"
+            tabindex="0"
+            aria-label="Pulsar el logotipo de DOCO para ingresar al catálogo"
+            title="Pulsar para entrar"
+          >
             <img
               [src]="theme.isLight() ? '/assets/brand/doco-logo-dark.png' : '/assets/brand/doco-logo-light.png'"
               alt="DOCO"
-              class="intro-logo"
+              class="intro-logo-img"
             />
           </div>
 
-          <div class="intro-prompt font-mono">
-            <span class="prompt-text">[ ENTRAR AL ARCHIVO ]</span>
-            <span class="prompt-cursor">_</span>
+          <div class="intro-hint font-mono">
+            <span>PULSA EL LOGO PARA INGRESAR</span>
           </div>
 
           <div class="intro-meta font-mono">
-            <span>CULIACÁN, SINALOA // STREETWEAR & Y2K ARCHIVE</span>
-            <span class="intro-hint">TOCA EN CUALQUIER LUGAR PARA EXPLORAR</span>
+            <span>CULIACÁN, SINALOA // ARCHIVO 1-OF-1</span>
           </div>
         </div>
       </div>
     }
 
-    <!-- MAIN VISUAL ARCHIVE CONTAINER -->
-    <main class="archive-main">
-      <!-- ARCHIVE TELEMETRY BAR -->
-      <section class="archive-telemetry font-mono">
-        <div class="telemetry-left">
-          <span class="telemetry-dot"></span>
-          <span>DOCO ARCHIVE // DROP 01</span>
-          <span class="telemetry-sep">/</span>
-          <span class="telemetry-count">{{ filteredProducts().length }} PIEZAS ACTIVAS</span>
-        </div>
-        <div class="telemetry-right">
-          <span>CULIACÁN, SINALOA</span>
-        </div>
-      </section>
-
-      <!-- VISUAL ARCHIVE GRID -->
-      <section
-        class="archive-grid"
-        [class.density-s]="archiveView.density() === 'S'"
-        [class.density-m]="archiveView.density() === 'M'"
-        [class.density-l]="archiveView.density() === 'L'"
-      >
+    <!-- MAIN YEEZY ARCHIVE STAGE -->
+    <main class="yeezy-stage">
+      <!-- 6-COLUMN GRID (EXACT YEEZY REFERENCE: BD-10, WJ-02...) -->
+      <section class="yeezy-grid" [class.is-filtered]="archiveView.selectedCategory() || archiveView.selectedBrand()">
         @for (item of filteredProducts(); track item.id) {
           <doco-product-card [product]="item" />
         }
       </section>
 
-      <!-- EMPTY STATE -->
+      <!-- EMPTY STATE IF SEARCH YIELDS 0 RESULTS -->
       @if (filteredProducts().length === 0) {
-        <div class="archive-empty font-mono">
-          <span class="empty-code">[ ∅ ]</span>
-          <p class="empty-msg">NO SE ENCONTRARON PIEZAS CON LOS FILTROS SELECCIONADOS</p>
-          <button type="button" class="empty-reset-btn" (click)="resetFilters()">
+        <div class="yeezy-empty font-mono">
+          <p class="empty-code">[ ∅ ]</p>
+          <p class="empty-text">NO HAY PIEZAS DISPONIBLES CON ESTE FILTRO</p>
+          <button type="button" class="empty-btn" (click)="resetFilters()">
             [ REINICIAR FILTROS ]
           </button>
         </div>
       }
 
-      <!-- MINIMAL FOOTER TELEMETRY -->
-      <footer class="archive-foot font-mono">
-        <div class="foot-col">
-          <span class="foot-title">DOCO ARCHIVE</span>
-          <span class="foot-text">Culiacán, Sinaloa, México · 1-of-1 Vintage Streetwear</span>
-        </div>
-        <div class="foot-col foot-col--right">
-          <span class="foot-text">ATENCIÓN & APARTADOS: +52 667 203 3174</span>
-          <span class="foot-text">PAGOS: EFECTIVO · TRANSFERENCIA SPEI · OXXO</span>
+      <!-- FOOTER LINKS (EXACT YEEZY REFERENCE: CUSTOMER CARE, TERMS, PRIVACY...) -->
+      <footer class="yeezy-footer font-mono">
+        <div class="footer-links">
+          <button type="button" class="foot-link" (click)="openCustomerCare()">CUSTOMER CARE</button>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="foot-link">INSTAGRAM</a>
+          <button type="button" class="foot-link" (click)="openWhatsApp()">WHATSAPP</button>
+          <button type="button" class="foot-link" (click)="openTerms()">TERMS</button>
+          <button type="button" class="foot-link" (click)="openPrivacy()">PRIVACY</button>
+          <span class="foot-static">CULIACÁN, SINALOA</span>
         </div>
       </footer>
     </main>
+
+    <!-- CUSTOMER CARE MODAL -->
+    @if (modalOpen() === 'care') {
+      <div class="info-modal-backdrop" (click)="closeModal()">
+        <div class="info-modal-dialog font-mono" role="dialog" aria-modal="true" aria-label="Customer Care DOCO">
+          <div class="modal-head">
+            <span class="modal-tag">// CUSTOMER CARE</span>
+            <button type="button" class="modal-close" (click)="closeModal()">[X]</button>
+          </div>
+          <div class="modal-body">
+            <h2 class="modal-title font-mono">CUIDADO & ATENCIÓN DE PIEZAS</h2>
+            <p class="modal-p">
+              Todas las prendas de DOCO Archive son piezas originales vintage y de archivo 1-of-1. Cada pieza ha sido inspeccionada físicamente y acondicionada antes de entrar al catálogo.
+            </p>
+            <div class="modal-specs-list">
+              <div class="spec-row">
+                <strong>LAVADO:</strong>
+                <span>Lavar siempre con agua fría (máx. 30°C) del revés para preservar serigrafías y bordados.</span>
+              </div>
+              <div class="spec-row">
+                <strong>SECADO:</strong>
+                <span>Secado al aire libre a la sombra. No utilizar secadora automática en prendas vintage.</span>
+              </div>
+              <div class="spec-row">
+                <strong>PLANCHAR:</strong>
+                <span>Planchar a temperatura baja del revés o con paño de protección sobre los gráficos.</span>
+              </div>
+              <div class="spec-row">
+                <strong>ASESORÍA EN TALLAS:</strong>
+                <span>Medidas exactas en centímetros disponibles vía WhatsApp para confirmar tu fit antes de apartar.</span>
+              </div>
+            </div>
+            <button type="button" class="modal-btn font-mono" (click)="openWhatsApp()">
+              <span>CONSULTAR POR WHATSAPP (+52 667 203 3174)</span>
+              <span>↗</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- TERMS MODAL -->
+    @if (modalOpen() === 'terms') {
+      <div class="info-modal-backdrop" (click)="closeModal()">
+        <div class="info-modal-dialog font-mono" role="dialog" aria-modal="true" aria-label="Términos DOCO">
+          <div class="modal-head">
+            <span class="modal-tag">// TERMS & CONDITIONS</span>
+            <button type="button" class="modal-close" (click)="closeModal()">[X]</button>
+          </div>
+          <div class="modal-body">
+            <h2 class="modal-title font-mono">TÉRMINOS DEL ARCHIVO</h2>
+            <div class="modal-specs-list">
+              <div class="spec-row">
+                <strong>1. PIEZAS 1-OF-1:</strong>
+                <span>Cada artículo publicado en DOCO es una pieza vintage única física en existencia. No hay reposiciones una vez agotada.</span>
+              </div>
+              <div class="spec-row">
+                <strong>2. ENTREGAS LOCALES:</strong>
+                <span>Entregas personales inmediatas en puntos céntricos de Culiacán, Sinaloa (Fórum, Tres Ríos, La Primavera, Isla Musala).</span>
+              </div>
+              <div class="spec-row">
+                <strong>3. APARTADOS:</strong>
+                <span>Se puede apartar cualquier prenda con un anticipo del 30% mediante transferencia SPEI directa o depósito OXXO.</span>
+              </div>
+              <div class="spec-row">
+                <strong>4. FORMAS DE PAGO:</strong>
+                <span>Aceptamos efectivo al entregar en mano en Culiacán, transferencia bancaria SPEI directa y depósito en tiendas OXXO.</span>
+              </div>
+            </div>
+            <button type="button" class="modal-btn font-mono" (click)="closeModal()">
+              [ ENTENDIDO ]
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- PRIVACY MODAL -->
+    @if (modalOpen() === 'privacy') {
+      <div class="info-modal-backdrop" (click)="closeModal()">
+        <div class="info-modal-dialog font-mono" role="dialog" aria-modal="true" aria-label="Privacidad DOCO">
+          <div class="modal-head">
+            <span class="modal-tag">// PRIVACY POLICY</span>
+            <button type="button" class="modal-close" (click)="closeModal()">[X]</button>
+          </div>
+          <div class="modal-body">
+            <h2 class="modal-title font-mono">POLÍTICA DE PRIVACIDAD</h2>
+            <p class="modal-p">
+              DOCO Archive protege la privacidad de sus clientes y compradores. La información proporcionada (nombre, número de WhatsApp y dirección de entrega en Culiacán) se utiliza única y exclusivamente para coordinar la entrega y apartado de las prendas solicitadas.
+            </p>
+            <p class="modal-p">
+              No compartimos, vendemos ni transferimos ningún dato personal a terceros. La plataforma opera bajo navegación cifrada de punta a punta.
+            </p>
+            <button type="button" class="modal-btn font-mono" (click)="closeModal()">
+              [ CERRAR ]
+            </button>
+          </div>
+        </div>
+      </div>
+    }
   `,
   styles: [`
-    /* CINEMATIC INTRO PORTAL */
-    .intro-portal {
+    /* YEEZY CINEMATIC INTRO */
+    .yeezy-intro {
       position: fixed;
       inset: 0;
       z-index: 100000;
@@ -115,259 +201,145 @@ import { DocoProductCardComponent } from '../../shared/components/doco-product-c
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      user-select: none;
-      animation: introEnter 0.25s ease-out;
-      overflow: hidden;
       width: 100vw;
       height: 100vh;
       box-sizing: border-box;
       padding: 1.5rem;
+      user-select: none;
+      animation: introFadeIn 0.22s ease-out;
     }
 
-    .intro-portal.is-leaving {
-      animation: introExit 0.32s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+    .yeezy-intro.is-leaving {
+      animation: introFadeOut 0.28s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
     }
 
-    @keyframes introEnter {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
+    @keyframes introFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
-    @keyframes introExit {
+    @keyframes introFadeOut {
       from {
         opacity: 1;
         transform: scale(1);
       }
       to {
         opacity: 0;
-        transform: scale(1.04);
+        transform: scale(1.03);
         pointer-events: none;
       }
     }
 
-    .intro-portal__inner {
+    .intro-box {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 2rem;
+      gap: 1.5rem;
       text-align: center;
-      max-width: 600px;
+      max-width: 520px;
       margin: auto;
     }
 
-    .intro-logo-box {
-      width: 100%;
-      max-width: 440px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    /* CLICKABLE LOGO TRIGGER (AS REQUESTED) */
+    .intro-logo-trigger {
+      cursor: pointer;
+      display: inline-block;
+      transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.4, 1), opacity 0.18s ease;
+      padding: 1rem;
     }
 
-    @media (max-width: 640px) {
-      .intro-logo-box {
-        max-width: 290px;
-      }
+    .intro-logo-trigger:hover {
+      transform: scale(1.03);
+      opacity: 0.92;
     }
 
-    .intro-logo {
+    .intro-logo-img {
       width: 100%;
+      max-width: 420px;
       height: auto;
       object-fit: contain;
-      filter: drop-shadow(0 2px 14px rgba(0, 0, 0, 0.4));
-    }
-
-    .intro-prompt {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-      font-size: 0.88rem;
-      letter-spacing: 0.14em;
-      color: var(--text-bone);
-      border: 1px solid var(--border-strong);
-      padding: 0.75rem 1.75rem;
-      background: var(--bg-surface);
-      text-transform: uppercase;
-      transition: background 0.15s ease, transform 0.15s ease;
-    }
-
-    .intro-portal:hover .intro-prompt {
-      background: var(--text-bone);
-      color: var(--bg-void);
-      transform: translateY(-1px);
-    }
-
-    .prompt-cursor {
-      animation: blink 1s infinite steps(2, start);
-    }
-
-    @keyframes blink {
-      to {
-        visibility: hidden;
-      }
-    }
-
-    .intro-meta {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      font-size: 0.68rem;
-      letter-spacing: 0.1em;
-      color: var(--text-muted);
-      text-transform: uppercase;
-    }
-
-    .intro-hint {
-      color: var(--text-dim);
-      font-size: 0.6rem;
-    }
-
-    /* MAIN ARCHIVE LAYOUT */
-    .archive-main {
-      width: 100%;
-      max-width: 100%;
-      overflow-x: hidden;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      box-sizing: border-box;
-      padding: 0 clamp(0.75rem, 2.5vw, 2.5rem);
-    }
-
-    .archive-telemetry {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.85rem 0;
-      border-bottom: 1px solid var(--border-subtle);
-      font-size: 0.68rem;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      text-transform: uppercase;
-    }
-
-    .telemetry-left {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .telemetry-dot {
-      width: 6px;
-      height: 6px;
-      background: #10b981;
-      border-radius: 50%;
-    }
-
-    .telemetry-sep {
-      color: var(--text-dim);
-    }
-
-    .telemetry-count {
-      color: var(--text-bone);
-      font-weight: 600;
-    }
-
-    .telemetry-right {
-      display: none;
-    }
-
-    @media (min-width: 640px) {
-      .telemetry-right {
-        display: block;
-      }
-    }
-
-    /* ARCHIVE GRID */
-    .archive-grid {
-      display: grid;
-      width: 100%;
-      padding: 1.5rem 0 3.5rem;
-      box-sizing: border-box;
-      gap: clamp(1rem, 2vw, 2rem) clamp(0.75rem, 1.8vw, 1.75rem);
-    }
-
-    /* DENSITY M (DEFAULT): 5 cols desktop, 4 tablet, 2 mobile */
-    .archive-grid.density-m {
-      grid-template-columns: repeat(5, 1fr);
-    }
-
-    @media (max-width: 1200px) {
-      .archive-grid.density-m {
-        grid-template-columns: repeat(4, 1fr);
-      }
-    }
-
-    @media (max-width: 900px) {
-      .archive-grid.density-m {
-        grid-template-columns: repeat(3, 1fr);
-      }
+      display: block;
+      filter: drop-shadow(0 2px 18px rgba(0, 0, 0, 0.35));
     }
 
     @media (max-width: 600px) {
-      .archive-grid.density-m {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.25rem 0.65rem;
+      .intro-logo-img {
+        max-width: 280px;
       }
     }
 
-    /* DENSITY S (COMPACT - HOVERSTAT STYLE): 7-8 cols desktop, 5 tablet, 3 mobile */
-    .archive-grid.density-s {
-      grid-template-columns: repeat(7, 1fr);
-      gap: clamp(0.6rem, 1.2vw, 1.25rem);
+    .intro-hint {
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      animation: pulseHint 2.4s infinite ease-in-out;
     }
 
-    @media (min-width: 1500px) {
-      .archive-grid.density-s {
-        grid-template-columns: repeat(8, 1fr);
-      }
+    @keyframes pulseHint {
+      0%, 100% { opacity: 0.45; }
+      50% { opacity: 0.95; }
     }
 
-    @media (max-width: 1200px) {
-      .archive-grid.density-s {
+    .intro-meta {
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    /* MAIN STAGE */
+    .yeezy-stage {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      min-height: calc(100vh - 48px);
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      padding: 1.5rem clamp(1rem, 3.5vw, 3.5rem) 2rem;
+    }
+
+    /* EXACT YEEZY 6-COLUMN GRID */
+    .yeezy-grid {
+      display: grid;
+      width: 100%;
+      grid-template-columns: repeat(6, 1fr);
+      gap: clamp(1.5rem, 3vw, 3rem) clamp(1rem, 2vw, 2.5rem);
+      box-sizing: border-box;
+      margin-bottom: 5rem;
+    }
+
+    @media (max-width: 1400px) {
+      .yeezy-grid {
         grid-template-columns: repeat(5, 1fr);
       }
     }
 
-    @media (max-width: 800px) {
-      .archive-grid.density-s {
+    @media (max-width: 1100px) {
+      .yeezy-grid {
         grid-template-columns: repeat(4, 1fr);
       }
     }
 
-    @media (max-width: 540px) {
-      .archive-grid.density-s {
+    @media (max-width: 800px) {
+      .yeezy-grid {
         grid-template-columns: repeat(3, 1fr);
-        gap: 0.75rem 0.45rem;
+        gap: 1.75rem 1rem;
       }
     }
 
-    /* DENSITY L (EDITORIAL): 3 cols desktop, 2 tablet, 1 mobile */
-    .archive-grid.density-l {
-      grid-template-columns: repeat(3, 1fr);
-      gap: clamp(1.5rem, 3vw, 3rem);
-    }
-
-    @media (max-width: 900px) {
-      .archive-grid.density-l {
+    @media (max-width: 520px) {
+      .yeezy-grid {
         grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 540px) {
-      .archive-grid.density-l {
-        grid-template-columns: 1fr;
+        gap: 1.5rem 0.75rem;
       }
     }
 
     /* EMPTY STATE */
-    .archive-empty {
-      padding: 5rem 1rem;
+    .yeezy-empty {
+      padding: 6rem 1rem;
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -378,16 +350,17 @@ import { DocoProductCardComponent } from '../../shared/components/doco-product-c
     .empty-code {
       font-size: 1.5rem;
       color: var(--text-dim);
+      margin: 0;
     }
 
-    .empty-msg {
+    .empty-text {
       font-size: 0.78rem;
       letter-spacing: 0.08em;
       color: var(--text-muted);
       margin: 0;
     }
 
-    .empty-reset-btn {
+    .empty-btn {
       background: transparent;
       border: 1px solid var(--border-strong);
       color: var(--text-bone);
@@ -396,40 +369,175 @@ import { DocoProductCardComponent } from '../../shared/components/doco-product-c
       font-size: 0.72rem;
     }
 
-    /* MINIMAL FOOTER */
-    .archive-foot {
+    /* FOOTER (EXACT YEEZY REFERENCE: CUSTOMER CARE, TERMS, PRIVACY) */
+    .yeezy-footer {
       margin-top: auto;
-      border-top: 1px solid var(--border-subtle);
-      padding: 2rem 0 3rem;
+      padding: 3rem 0 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .footer-links {
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 1.5rem;
-      font-size: 0.68rem;
-      color: var(--text-muted);
-      letter-spacing: 0.06em;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(1rem, 2.5vw, 2.75rem);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
+      color: var(--text-muted);
     }
 
-    .foot-col {
+    .foot-link {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 0;
+      font: inherit;
+      letter-spacing: inherit;
+      transition: color 0.15s ease;
+      text-decoration: none;
+    }
+
+    .foot-link:hover {
+      color: var(--text-bone);
+    }
+
+    .foot-static {
+      color: var(--text-dim);
+    }
+
+    /* INFO MODALS */
+    .info-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      box-sizing: border-box;
+    }
+
+    [data-theme='light'] .info-modal-backdrop {
+      background: rgba(255, 255, 255, 0.88);
+    }
+
+    .info-modal-dialog {
+      background: var(--bg-void);
+      border: 1px solid var(--border-strong);
+      width: 100%;
+      max-width: 580px;
+      padding: 1.75rem;
+      box-sizing: border-box;
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
+      gap: 1.25rem;
+      animation: modalPop 0.16s ease-out;
     }
 
-    .foot-col--right {
-      text-align: right;
-    }
-
-    @media (max-width: 640px) {
-      .foot-col--right {
-        text-align: left;
+    @keyframes modalPop {
+      from {
+        opacity: 0;
+        transform: scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
       }
     }
 
-    .foot-title {
-      font-weight: 700;
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 0.5rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+    }
+
+    .modal-tag {
+      color: var(--text-muted);
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    .modal-close:hover {
       color: var(--text-bone);
+    }
+
+    .modal-body {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .modal-title {
+      font-size: 1.15rem;
+      letter-spacing: 0.04em;
+      margin: 0;
+      color: var(--text-bone);
+    }
+
+    .modal-p {
+      font-size: 0.78rem;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .modal-specs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      padding: 1rem;
+      font-size: 0.74rem;
+    }
+
+    .spec-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .spec-row strong {
+      color: var(--text-bone);
+      letter-spacing: 0.06em;
+    }
+
+    .spec-row span {
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .modal-btn {
+      background: var(--text-bone);
+      color: var(--bg-void);
+      border: 1px solid var(--text-bone);
+      padding: 0.85rem 1rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
   `]
 })
@@ -437,8 +545,10 @@ export class HomePageComponent {
   readonly archiveView = inject(ArchiveViewService);
   readonly theme = inject(ThemeService);
   private readonly soundFx = inject(SoundFxService);
+  private readonly whatsapp = inject(WhatsAppService);
 
   readonly introLeaving = signal(false);
+  readonly modalOpen = signal<'care' | 'terms' | 'privacy' | null>(null);
 
   private readonly allSummaries: ProductSummary[] = FALLBACK_PRODUCTS.map(toProductSummary);
 
@@ -479,5 +589,28 @@ export class HomePageComponent {
   resetFilters(): void {
     this.soundFx.playClick();
     this.archiveView.resetFilters();
+  }
+
+  openCustomerCare(): void {
+    this.soundFx.playClick();
+    this.modalOpen.set('care');
+  }
+
+  openTerms(): void {
+    this.soundFx.playClick();
+    this.modalOpen.set('terms');
+  }
+
+  openPrivacy(): void {
+    this.soundFx.playClick();
+    this.modalOpen.set('privacy');
+  }
+
+  closeModal(): void {
+    this.modalOpen.set(null);
+  }
+
+  openWhatsApp(): void {
+    this.whatsapp.openUrl(this.whatsapp.generateGeneralInquiryUrl());
   }
 }

@@ -18,186 +18,128 @@ import { formatMxn } from '../../core/utils/formatters';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <article
-      class="archive-card"
+      class="yeezy-item"
       (mouseenter)="onHover(true)"
       (mouseleave)="onHover(false)"
-      (click)="handleCardClick()"
+      (click)="handleClick()"
       role="button"
       tabindex="0"
       [attr.aria-label]="product().title"
     >
-      <!-- FLOATING GARMENT MEDIA -->
-      <div class="archive-card__media">
-        @if (product().primaryImageUrl) {
+      <!-- FLOATING GARMENT CUTOUT CANVAS -->
+      <div class="yeezy-item__stage">
+        @if (displayImageUrl()) {
           <img
-            class="archive-card__img archive-card__img--primary"
-            [class.is-faded]="isHovered() && product().secondaryImageUrl"
-            [src]="product().primaryImageUrl"
+            class="yeezy-item__img"
+            [src]="displayImageUrl()"
             [alt]="product().title"
+            (error)="onImgError($event)"
             loading="lazy"
           />
-          @if (product().secondaryImageUrl) {
-            <img
-              class="archive-card__img archive-card__img--secondary"
-              [class.is-visible]="isHovered()"
-              [src]="product().secondaryImageUrl"
-              [alt]="product().title + ' vista posterior'"
-              loading="lazy"
-            />
-          }
         } @else {
-          <div class="archive-card__empty font-mono">DOCO ARCHIVE</div>
+          <div class="yeezy-item__fallback font-mono">DOCO</div>
         }
 
-        <!-- SUBTLE QUICK VIEW HINT ON HOVER -->
-        <div class="archive-card__hint font-mono">
-          <span>[ VER DETALLES ]</span>
-        </div>
-
         @if (product().stock === 0) {
-          <div class="archive-card__soldout font-mono">SOLD OUT</div>
+          <div class="yeezy-item__soldout font-mono">SOLD OUT</div>
         }
       </div>
 
-      <!-- MONOSPACE TELEMETRY CAPTION (HOVERSTAT / YEEZY STYLE) -->
-      <div class="archive-card__caption font-mono">
-        <span class="caption-sku">#{{ product().sku }}</span>
-        <span class="caption-info">
-          {{ shortTitle() }} [{{ product().sizeLabel }}] · {{ formatMxn(product().priceMxn) }}
-        </span>
+      <!-- CENTERED MONOSPACE SKU (YEEZY STYLE: WJ-02 / DOCO-01) -->
+      <div class="yeezy-item__label font-mono">
+        <span class="yeezy-sku">{{ yeezySku() }}</span>
+        <span class="yeezy-sub">{{ formatMxn(product().priceMxn) }}</span>
       </div>
     </article>
   `,
   styles: [`
-    .archive-card {
+    .yeezy-item {
       position: relative;
       display: flex;
       flex-direction: column;
+      align-items: center;
       cursor: pointer;
       user-select: none;
       background: transparent;
       outline: none;
-      transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.4, 1);
+      padding: clamp(0.5rem, 1.5vw, 1.25rem) 0.5rem;
+      transition: transform 0.16s cubic-bezier(0.2, 0.8, 0.4, 1);
+      box-sizing: border-box;
     }
 
-    .archive-card:hover {
-      transform: translateY(-2px);
+    .yeezy-item:hover {
+      transform: translateY(-3px);
     }
 
-    .archive-card__media {
+    .yeezy-item__stage {
       position: relative;
       width: 100%;
       aspect-ratio: 1 / 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: var(--bg-media);
+      background: transparent;
       overflow: hidden;
-      border: 1px solid var(--border-subtle);
-      transition: border-color 0.18s ease;
     }
 
-    .archive-card:hover .archive-card__media {
-      border-color: var(--border-strong);
-    }
-
-    .archive-card__img {
-      position: absolute;
-      inset: 0;
+    .yeezy-item__img {
       width: 100%;
       height: 100%;
       object-fit: contain;
-      padding: 0.5rem;
-      box-sizing: border-box;
-      transition: opacity 0.22s ease, transform 0.25s ease;
-      will-change: opacity, transform;
+      display: block;
+      transition: transform 0.22s ease, opacity 0.2s ease;
+      will-change: transform;
     }
 
-    .archive-card__img--primary {
-      opacity: 1;
-      z-index: 1;
+    .yeezy-item:hover .yeezy-item__img {
+      transform: scale(1.04);
     }
 
-    .archive-card__img--primary.is-faded {
-      opacity: 0;
-    }
-
-    .archive-card__img--secondary {
-      opacity: 0;
-      z-index: 2;
-    }
-
-    .archive-card__img--secondary.is-visible {
-      opacity: 1;
-    }
-
-    .archive-card__empty {
-      font-size: 0.72rem;
+    .yeezy-item__fallback {
+      font-size: 0.75rem;
       color: var(--text-muted);
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
     }
 
-    .archive-card__hint {
-      position: absolute;
-      bottom: 6px;
-      right: 6px;
-      font-size: 0.58rem;
-      letter-spacing: 0.08em;
-      background: var(--bg-void);
-      color: var(--text-bone);
-      border: 1px solid var(--border-subtle);
-      padding: 2px 5px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.18s ease;
-      z-index: 3;
-    }
-
-    .archive-card:hover .archive-card__hint {
-      opacity: 0.95;
-    }
-
-    .archive-card__soldout {
+    .yeezy-item__soldout {
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.75);
+      background: rgba(0, 0, 0, 0.7);
       color: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.78rem;
-      letter-spacing: 0.12em;
-      z-index: 4;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
     }
 
-    /* MONOSPACE CAPTION */
-    .archive-card__caption {
-      margin-top: 0.5rem;
+    /* CENTERED MONOSPACE CODE (EXACT YEEZY REFERENCE: BD-10, WJ-02) */
+    .yeezy-item__label {
+      margin-top: 0.85rem;
       display: flex;
       flex-direction: column;
-      gap: 0.15rem;
-      font-size: 0.68rem;
-      letter-spacing: 0.04em;
-      line-height: 1.25;
+      align-items: center;
+      gap: 0.2rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
+      text-align: center;
     }
 
-    .caption-sku {
-      color: var(--text-dim);
-      font-size: 0.62rem;
-      letter-spacing: 0.06em;
-    }
-
-    .archive-card:hover .caption-sku {
-      color: var(--text-muted);
-    }
-
-    .caption-info {
-      color: var(--text-bone);
+    .yeezy-sku {
       font-weight: 500;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      color: var(--text-bone);
+    }
+
+    .yeezy-sub {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      letter-spacing: 0.06em;
+      transition: color 0.15s ease;
+    }
+
+    .yeezy-item:hover .yeezy-sub {
+      color: var(--text-muted);
     }
   `]
 })
@@ -209,21 +151,33 @@ export class DocoProductCardComponent {
 
   readonly isHovered = signal(false);
 
-  readonly shortTitle = computed(() => {
-    const t = this.product().title;
-    // Strip redundant brand prefix if present for sleek caption
-    const b = this.product().brandName;
-    if (t.toLowerCase().startsWith(b.toLowerCase())) {
-      return t.substring(b.length).trim().replace(/^[-/]\s*/, '');
-    }
-    return t;
+  readonly yeezySku = computed(() => {
+    const raw = this.product().sku;
+    // Format into clean Yeezy code e.g. DOCO-01 or ARC-01
+    return raw.replace('DOCO-ARC-', 'DOCO-');
   });
 
-  onHover(hovering: boolean): void {
-    this.isHovered.set(hovering);
+  readonly displayImageUrl = computed(() => {
+    const p = this.product();
+    // If cutout image exists or primary
+    if (this.isHovered() && p.secondaryImageUrl) {
+      return p.secondaryImageUrl;
+    }
+    return p.primaryImageUrl;
+  });
+
+  onHover(val: boolean): void {
+    this.isHovered.set(val);
   }
 
-  handleCardClick(): void {
+  onImgError(e: Event): void {
+    const el = e.target as HTMLImageElement;
+    if (el && el.src.includes('_cutout.webp')) {
+      el.src = el.src.replace('_cutout.webp', '.webp');
+    }
+  }
+
+  handleClick(): void {
     this.soundFx.playClick();
     this.quickView.open(this.product());
   }
