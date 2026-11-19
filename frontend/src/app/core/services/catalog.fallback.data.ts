@@ -136,30 +136,30 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[0],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5487_2.webp",
+            "imageUrl": "/assets/archive/img_5487_2_cutout.webp",
             "altText": "Frente Ed Hardy Death Before Dishonor",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5488_2.webp",
-            "altText": "Etiqueta cuello Ed Hardy M",
+            "imageUrl": "/assets/archive/img_5490_2_cutout.webp",
+            "altText": "Espalda Don Ed Hardy Designs",
             "sortOrder": 1,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5489_2.webp",
-            "altText": "Detalle gráfico calavera y flamas",
+            "imageUrl": "/assets/archive/img_5488_2_cutout.webp",
+            "altText": "Etiqueta cuello Ed Hardy M",
             "sortOrder": 2,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5490_2.webp",
-            "altText": "Espalda Don Ed Hardy Designs",
+            "imageUrl": "/assets/archive/img_5489_2_cutout.webp",
+            "altText": "Detalle gráfico calavera y flamas",
             "sortOrder": 3,
             "primaryImage": false
       }
-]
+    ]
   },
   {
     id: 2,
@@ -180,30 +180,30 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[0],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5495_2.webp",
+            "imageUrl": "/assets/archive/img_5495_2_cutout.webp",
             "altText": "Frente Ed Hardy Hellcat Panther",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5496_2.webp",
-            "altText": "Etiqueta original Ed Hardy M",
+            "imageUrl": "/assets/archive/img_5498_2_cutout.webp",
+            "altText": "Espalda Ed Hardy",
             "sortOrder": 1,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5497_2.webp",
-            "altText": "Detalle colmillos y serigrafía",
+            "imageUrl": "/assets/archive/img_5496_2_cutout.webp",
+            "altText": "Etiqueta original Ed Hardy M",
             "sortOrder": 2,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5498_2.webp",
-            "altText": "Espalda Ed Hardy",
+            "imageUrl": "/assets/archive/img_5497_2_cutout.webp",
+            "altText": "Detalle colmillos y serigrafía",
             "sortOrder": 3,
             "primaryImage": false
       }
-]
+    ]
   },
   {
     id: 3,
@@ -224,30 +224,30 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[0],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5501_2.webp",
+            "imageUrl": "/assets/archive/img_5501_2_cutout.webp",
             "altText": "Frente Ed Hardy Pierced Hearts",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5502_2.webp",
-            "altText": "Etiqueta cuello Talla L",
+            "imageUrl": "/assets/archive/img_5504_2_cutout.webp",
+            "altText": "Espalda Ed Hardy",
             "sortOrder": 1,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5503_2.webp",
-            "altText": "Detalle pedrería y bordados",
+            "imageUrl": "/assets/archive/img_5502_2_cutout.webp",
+            "altText": "Etiqueta cuello Talla L",
             "sortOrder": 2,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5504_2.webp",
-            "altText": "Espalda Ed Hardy",
+            "imageUrl": "/assets/archive/img_5503_2_cutout.webp",
+            "altText": "Detalle pedrería y bordados",
             "sortOrder": 3,
             "primaryImage": false
       }
-]
+    ]
   },
   {
     id: 4,
@@ -268,30 +268,30 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[1],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5506_2.webp",
+            "imageUrl": "/assets/archive/img_5506_2_cutout.webp",
             "altText": "Frente Christian Audigier Crown Heart",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5507_2.webp",
-            "altText": "Etiqueta Christian Audigier LA",
+            "imageUrl": "/assets/archive/img_5510_2_cutout.webp",
+            "altText": "Espalda Christian Audigier",
             "sortOrder": 1,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5508_2.webp",
-            "altText": "Detalle pedrería fina y dorados",
+            "imageUrl": "/assets/archive/img_5507_2_cutout.webp",
+            "altText": "Etiqueta Christian Audigier LA",
             "sortOrder": 2,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5510_2.webp",
-            "altText": "Espalda Christian Audigier",
+            "imageUrl": "/assets/archive/img_5508_2_cutout.webp",
+            "altText": "Detalle pedrería fina y dorados",
             "sortOrder": 3,
             "primaryImage": false
       }
-]
+    ]
   },
   {
     id: 5,
@@ -312,30 +312,30 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[2],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5513_2.webp",
+            "imageUrl": "/assets/archive/img_5513_2_cutout.webp",
             "altText": "Frente Virgen de Guadalupe Sad Boyz",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5514_2.webp",
-            "altText": "Etiqueta original Sad Boyz x Ed Hardy",
+            "imageUrl": "/assets/archive/img_5520_2_cutout.webp",
+            "altText": "Espalda Cruz Gótica Sad Boyz",
             "sortOrder": 1,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5515_2.webp",
-            "altText": "Detalle impresión Virgen",
+            "imageUrl": "/assets/archive/img_5514_2_cutout.webp",
+            "altText": "Etiqueta original Sad Boyz x Ed Hardy",
             "sortOrder": 2,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5520_2.webp",
-            "altText": "Espalda Cruz Gótica Sad Boyz",
+            "imageUrl": "/assets/archive/img_5515_2_cutout.webp",
+            "altText": "Detalle impresión Virgen",
             "sortOrder": 3,
             "primaryImage": false
       }
-]
+    ]
   },
   {
     id: 6,
@@ -356,36 +356,36 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[0],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5521_2.webp",
+            "imageUrl": "/assets/archive/img_5521_2_cutout.webp",
             "altText": "Frente Ed Hardy Layered Tiger",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5522_2.webp",
-            "altText": "Detalle mangas con calavera",
+            "imageUrl": "/assets/archive/img_5527_2_cutout.webp",
+            "altText": "Espalda Don Ed Hardy Designs",
             "sortOrder": 1,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5524_2.webp",
-            "altText": "Etiqueta original Ed Hardy",
+            "imageUrl": "/assets/archive/img_5522_2_cutout.webp",
+            "altText": "Detalle mangas con calavera",
             "sortOrder": 2,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5525_2.webp",
-            "altText": "Detalle gráfico tigre y ojo",
+            "imageUrl": "/assets/archive/img_5524_2_cutout.webp",
+            "altText": "Etiqueta original Ed Hardy",
             "sortOrder": 3,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5527_2.webp",
-            "altText": "Espalda Don Ed Hardy Designs",
+            "imageUrl": "/assets/archive/img_5525_2_cutout.webp",
+            "altText": "Detalle gráfico tigre y ojo",
             "sortOrder": 4,
             "primaryImage": false
       }
-]
+    ]
   },
   {
     id: 7,
@@ -406,30 +406,30 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[2],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5528_2.webp",
+            "imageUrl": "/assets/archive/img_5528_2_cutout.webp",
             "altText": "Frente Sad Boyz Muscle Dragon",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5529_2.webp",
-            "altText": "Etiqueta original Sad Boyz",
+            "imageUrl": "/assets/archive/img_5531_2_cutout.webp",
+            "altText": "Espalda Sad Boyz",
             "sortOrder": 1,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5530_2.webp",
-            "altText": "Detalle dragón y rosas",
+            "imageUrl": "/assets/archive/img_5529_2_cutout.webp",
+            "altText": "Etiqueta original Sad Boyz",
             "sortOrder": 2,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5531_2.webp",
-            "altText": "Espalda Sad Boyz",
+            "imageUrl": "/assets/archive/img_5530_2_cutout.webp",
+            "altText": "Detalle dragón y rosas",
             "sortOrder": 3,
             "primaryImage": false
       }
-]
+    ]
   },
   {
     id: 8,
@@ -450,30 +450,30 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[0],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5532_2.webp",
+            "imageUrl": "/assets/archive/img_5532_2_cutout.webp",
             "altText": "Frente Ed Hardy Red Skull Dagger",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5533_2.webp",
-            "altText": "Detalle calavera y letras doradas",
+            "imageUrl": "/assets/archive/img_5535_2_cutout.webp",
+            "altText": "Espalda Ed Hardy rojo",
             "sortOrder": 1,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5534_2.webp",
-            "altText": "Etiqueta original Ed Hardy",
+            "imageUrl": "/assets/archive/img_5533_2_cutout.webp",
+            "altText": "Detalle calavera y letras doradas",
             "sortOrder": 2,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5535_2.webp",
-            "altText": "Espalda Ed Hardy rojo",
+            "imageUrl": "/assets/archive/img_5534_2_cutout.webp",
+            "altText": "Etiqueta original Ed Hardy",
             "sortOrder": 3,
             "primaryImage": false
       }
-]
+    ]
   },
   {
     id: 9,
@@ -494,30 +494,30 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[0],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5537_2.webp",
+            "imageUrl": "/assets/archive/img_5537_2_cutout.webp",
             "altText": "Frente Ed Hardy Red Panther",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5538_2.webp",
-            "altText": "Detalle pantera rugiendo",
+            "imageUrl": "/assets/archive/img_5540_2_cutout.webp",
+            "altText": "Espalda Ed Hardy",
             "sortOrder": 1,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5539_2.webp",
-            "altText": "Etiqueta Ed Hardy M",
+            "imageUrl": "/assets/archive/img_5538_2_cutout.webp",
+            "altText": "Detalle pantera rugiendo",
             "sortOrder": 2,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5540_2.webp",
-            "altText": "Espalda Ed Hardy",
+            "imageUrl": "/assets/archive/img_5539_2_cutout.webp",
+            "altText": "Etiqueta Ed Hardy M",
             "sortOrder": 3,
             "primaryImage": false
       }
-]
+    ]
   },
   {
     id: 10,
@@ -538,30 +538,30 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[0],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5541_2.webp",
+            "imageUrl": "/assets/archive/img_5541_2_cutout.webp",
             "altText": "Frente Ed Hardy Double Skull Snake",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5542_2.webp",
-            "altText": "Detalle calaveras y serpiente",
+            "imageUrl": "/assets/archive/img_5544_2_cutout.webp",
+            "altText": "Espalda Ed Hardy",
             "sortOrder": 1,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5543_2.webp",
-            "altText": "Etiqueta de cartón Ed Hardy",
+            "imageUrl": "/assets/archive/img_5542_2_cutout.webp",
+            "altText": "Detalle calaveras y serpiente",
             "sortOrder": 2,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5544_2.webp",
-            "altText": "Espalda Ed Hardy",
+            "imageUrl": "/assets/archive/img_5543_2_cutout.webp",
+            "altText": "Etiqueta de cartón Ed Hardy",
             "sortOrder": 3,
             "primaryImage": false
       }
-]
+    ]
   },
   {
     id: 11,
@@ -582,42 +582,42 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[3],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5840.webp",
+            "imageUrl": "/assets/archive/img_5840_cutout.webp",
             "altText": "Frente Diesel Box Logo White",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5841.webp",
-            "altText": "Detalle box logo rojo",
+            "imageUrl": "/assets/archive/img_5844_cutout.webp",
+            "altText": "Espalda Diesel blanca",
             "sortOrder": 1,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5842.webp",
-            "altText": "Etiqueta cuello Diesel",
+            "imageUrl": "/assets/archive/img_5841_cutout.webp",
+            "altText": "Detalle box logo rojo",
             "sortOrder": 2,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5843.webp",
-            "altText": "Detalle tejido algodón",
+            "imageUrl": "/assets/archive/img_5842_cutout.webp",
+            "altText": "Etiqueta cuello Diesel",
             "sortOrder": 3,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5844.webp",
-            "altText": "Espalda Diesel blanca",
+            "imageUrl": "/assets/archive/img_5843_cutout.webp",
+            "altText": "Detalle tejido algodón",
             "sortOrder": 4,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5845.webp",
+            "imageUrl": "/assets/archive/img_5845_cutout.webp",
             "altText": "Etiqueta interna y cuidados",
             "sortOrder": 5,
             "primaryImage": false
       }
-]
+    ]
   },
   {
     id: 12,
@@ -638,30 +638,30 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[4],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5846.webp",
+            "imageUrl": "/assets/archive/img_5846_cutout.webp",
             "altText": "Frente Camisa Técnica Harley Gris",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5847.webp",
-            "altText": "Detalle bolsillos y parche H-D",
+            "imageUrl": "/assets/archive/img_5849_cutout.webp",
+            "altText": "Espalda ventilada Harley-Davidson",
             "sortOrder": 1,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5848.webp",
-            "altText": "Etiqueta HD Performance",
+            "imageUrl": "/assets/archive/img_5847_cutout.webp",
+            "altText": "Detalle bolsillos y parche H-D",
             "sortOrder": 2,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5849.webp",
-            "altText": "Espalda ventilada Harley-Davidson",
+            "imageUrl": "/assets/archive/img_5848_cutout.webp",
+            "altText": "Etiqueta HD Performance",
             "sortOrder": 3,
             "primaryImage": false
       }
-]
+    ]
   },
   {
     id: 13,
@@ -682,30 +682,30 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[3],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5851.webp",
+            "imageUrl": "/assets/archive/img_5851_cutout.webp",
             "altText": "Frente Diesel Red D White Tee",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5852.webp",
-            "altText": "Detalle logo D rojo en pecho",
+            "imageUrl": "/assets/archive/img_5854_cutout.webp",
+            "altText": "Espalda limpia Diesel",
             "sortOrder": 1,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5853.webp",
-            "altText": "Etiqueta original Diesel colgante",
+            "imageUrl": "/assets/archive/img_5852_cutout.webp",
+            "altText": "Detalle logo D rojo en pecho",
             "sortOrder": 2,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5854.webp",
-            "altText": "Espalda limpia Diesel",
+            "imageUrl": "/assets/archive/img_5853_cutout.webp",
+            "altText": "Etiqueta original Diesel colgante",
             "sortOrder": 3,
             "primaryImage": false
       }
-]
+    ]
   },
   {
     id: 14,
@@ -726,42 +726,42 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[4],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5855.webp",
+            "imageUrl": "/assets/archive/img_5855_cutout.webp",
             "altText": "Frente Camisa Harley Gris Acero",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5856.webp",
-            "altText": "Detalle bordado pecho y cuello",
+            "imageUrl": "/assets/archive/img_5859_cutout.webp",
+            "altText": "Espalda Harley-Davidson",
             "sortOrder": 1,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5857.webp",
-            "altText": "Etiqueta An American Legend XL",
+            "imageUrl": "/assets/archive/img_5856_cutout.webp",
+            "altText": "Detalle bordado pecho y cuello",
             "sortOrder": 2,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5858.webp",
-            "altText": "Detalle tribal en manga",
+            "imageUrl": "/assets/archive/img_5857_cutout.webp",
+            "altText": "Etiqueta An American Legend XL",
             "sortOrder": 3,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5859.webp",
-            "altText": "Espalda Harley-Davidson",
+            "imageUrl": "/assets/archive/img_5858_cutout.webp",
+            "altText": "Detalle tribal en manga",
             "sortOrder": 4,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5860.webp",
+            "imageUrl": "/assets/archive/img_5860_cutout.webp",
             "altText": "Detalle remache bar and shield",
             "sortOrder": 5,
             "primaryImage": false
       }
-]
+    ]
   },
   {
     id: 15,
@@ -782,24 +782,24 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[4],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5862.webp",
+            "imageUrl": "/assets/archive/img_5862_cutout.webp",
             "altText": "Frente Camisa Naranja Harley Skull",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5863.webp",
-            "altText": "Detalle franja Willie G Skull",
+            "imageUrl": "/assets/archive/img_5864_cutout.webp",
+            "altText": "Espalda Harley-Davidson",
             "sortOrder": 1,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5864.webp",
-            "altText": "Espalda Harley-Davidson",
+            "imageUrl": "/assets/archive/img_5863_cutout.webp",
+            "altText": "Detalle franja Willie G Skull",
             "sortOrder": 2,
             "primaryImage": false
       }
-]
+    ]
   },
   {
     id: 16,
@@ -820,24 +820,24 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[4],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5866.webp",
+            "imageUrl": "/assets/archive/img_5866_cutout.webp",
             "altText": "Espalda Beartooth Harley-Davidson Cody",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5867.webp",
-            "altText": "Detalle serigrafía moto y edificio",
+            "imageUrl": "/assets/archive/img_5868_cutout.webp",
+            "altText": "Frente Harley-Davidson",
             "sortOrder": 1,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5868.webp",
-            "altText": "Frente Harley-Davidson",
+            "imageUrl": "/assets/archive/img_5867_cutout.webp",
+            "altText": "Detalle serigrafía moto y edificio",
             "sortOrder": 2,
             "primaryImage": false
       }
-]
+    ]
   },
   {
     id: 17,
@@ -858,24 +858,24 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[5],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5870.webp",
+            "imageUrl": "/assets/archive/img_5870_cutout.webp",
             "altText": "Frente Chamarra Southpole Roja",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5871.webp",
-            "altText": "Detalle cuello y botones Southpole",
+            "imageUrl": "/assets/archive/img_5874_cutout.webp",
+            "altText": "Espalda bordada escena Subway NYC",
             "sortOrder": 1,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5874.webp",
-            "altText": "Espalda bordada escena Subway NYC",
+            "imageUrl": "/assets/archive/img_5871_cutout.webp",
+            "altText": "Detalle cuello y botones Southpole",
             "sortOrder": 2,
             "primaryImage": false
       }
-]
+    ]
   },
   {
     id: 18,
@@ -896,24 +896,24 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[5],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5876.webp",
+            "imageUrl": "/assets/archive/img_5876_cutout.webp",
             "altText": "Frente Southpole Embroidered Tee",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5877.webp",
-            "altText": "Detalle bordado bloque Southpole",
+            "imageUrl": "/assets/archive/img_5878_cutout.webp",
+            "altText": "Parche tejido Est. 1991",
             "sortOrder": 1,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5878.webp",
-            "altText": "Parche tejido Est. 1991",
+            "imageUrl": "/assets/archive/img_5877_cutout.webp",
+            "altText": "Detalle bordado bloque Southpole",
             "sortOrder": 2,
             "primaryImage": false
       }
-]
+    ]
   },
   {
     id: 19,
@@ -934,18 +934,18 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[6],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5902.webp",
+            "imageUrl": "/assets/archive/img_5902_cutout.webp",
             "altText": "Frente Sudadera Nike Roja",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5901.webp",
+            "imageUrl": "/assets/archive/img_5901_cutout.webp",
             "altText": "Detalle Swoosh blanco y etiqueta Nike",
             "sortOrder": 1,
             "primaryImage": false
       }
-]
+    ]
   },
   {
     id: 20,
@@ -966,36 +966,36 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[7],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5903.webp",
+            "imageUrl": "/assets/archive/img_5903_cutout.webp",
             "altText": "Frente Misfits Skull Tee",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5904.webp",
-            "altText": "Detalle calavera Misfits y colores",
+            "imageUrl": "/assets/archive/img_5908_cutout.webp",
+            "altText": "Espalda Misfits",
             "sortOrder": 1,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5905.webp",
-            "altText": "Etiqueta original Misfits",
+            "imageUrl": "/assets/archive/img_5904_cutout.webp",
+            "altText": "Detalle calavera Misfits y colores",
             "sortOrder": 2,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5906.webp",
-            "altText": "Detalle textura algodón",
+            "imageUrl": "/assets/archive/img_5905_cutout.webp",
+            "altText": "Etiqueta original Misfits",
             "sortOrder": 3,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5908.webp",
-            "altText": "Espalda Misfits",
+            "imageUrl": "/assets/archive/img_5906_cutout.webp",
+            "altText": "Detalle textura algodón",
             "sortOrder": 4,
             "primaryImage": false
       }
-]
+    ]
   },
   {
     id: 21,
@@ -1016,24 +1016,24 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[2],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5909.webp",
+            "imageUrl": "/assets/archive/img_5909_cutout.webp",
             "altText": "Frente Sad Boyz Águila Muerte Antes de Deshonor",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5910.webp",
-            "altText": "Detalle serigrafía águila y pergamino",
+            "imageUrl": "/assets/archive/img_5912_cutout.webp",
+            "altText": "Espalda Sad Boyz",
             "sortOrder": 1,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5912.webp",
-            "altText": "Espalda Sad Boyz",
+            "imageUrl": "/assets/archive/img_5910_cutout.webp",
+            "altText": "Detalle serigrafía águila y pergamino",
             "sortOrder": 2,
             "primaryImage": false
       }
-]
+    ]
   },
   {
     id: 22,
@@ -1054,24 +1054,24 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[8],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5913.webp",
+            "imageUrl": "/assets/archive/img_5913_cutout.webp",
             "altText": "Frente Camisa Mecánica WCC Negra",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5914.webp",
-            "altText": "Detalle bordado Iron Cross Long Beach",
+            "imageUrl": "/assets/archive/img_5915_cutout.webp",
+            "altText": "Espalda West Coast Choppers",
             "sortOrder": 1,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5915.webp",
-            "altText": "Espalda West Coast Choppers",
+            "imageUrl": "/assets/archive/img_5914_cutout.webp",
+            "altText": "Detalle bordado Iron Cross Long Beach",
             "sortOrder": 2,
             "primaryImage": false
       }
-]
+    ]
   },
   {
     id: 23,
@@ -1092,54 +1092,54 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[8],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5920.webp",
+            "imageUrl": "/assets/archive/img_5920_cutout.webp",
             "altText": "Frente West Coast Choppers Iron Cross Tee",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5922.webp",
-            "altText": "Detalle logo Iron Cross blanco",
+            "imageUrl": "/assets/archive/img_5925_cutout.webp",
+            "altText": "Espalda completa Chopper naranja y flamas",
             "sortOrder": 1,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5923.webp",
-            "altText": "Etiqueta original WCC cuello",
+            "imageUrl": "/assets/archive/img_5922_cutout.webp",
+            "altText": "Detalle logo Iron Cross blanco",
             "sortOrder": 2,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5924.webp",
-            "altText": "Detalle moto chopper y fuego",
+            "imageUrl": "/assets/archive/img_5923_cutout.webp",
+            "altText": "Etiqueta original WCC cuello",
             "sortOrder": 3,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5925.webp",
-            "altText": "Espalda completa Chopper naranja y flamas",
+            "imageUrl": "/assets/archive/img_5924_cutout.webp",
+            "altText": "Detalle moto chopper y fuego",
             "sortOrder": 4,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5926.webp",
+            "imageUrl": "/assets/archive/img_5926_cutout.webp",
             "altText": "Detalle motor chopper",
             "sortOrder": 5,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5927.webp",
+            "imageUrl": "/assets/archive/img_5927_cutout.webp",
             "altText": "Detalle etiqueta inferior",
             "sortOrder": 6,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5928.webp",
+            "imageUrl": "/assets/archive/img_5928_cutout.webp",
             "altText": "Vista lateral",
             "sortOrder": 7,
             "primaryImage": false
       }
-]
+    ]
   },
   {
     id: 24,
@@ -1160,30 +1160,30 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[8],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5933.webp",
+            "imageUrl": "/assets/archive/img_5933_cutout.webp",
             "altText": "Frente Chamarra Canvas WCC Negra",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5934.webp",
-            "altText": "Detalle bordados frontales dobles",
+            "imageUrl": "/assets/archive/img_5936_cutout.webp",
+            "altText": "Espalda limpia canvas pesado",
             "sortOrder": 1,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5935.webp",
-            "altText": "Parche manga WCC Est. 1992",
+            "imageUrl": "/assets/archive/img_5934_cutout.webp",
+            "altText": "Detalle bordados frontales dobles",
             "sortOrder": 2,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5936.webp",
-            "altText": "Espalda limpia canvas pesado",
+            "imageUrl": "/assets/archive/img_5935_cutout.webp",
+            "altText": "Parche manga WCC Est. 1992",
             "sortOrder": 3,
             "primaryImage": false
       }
-]
+    ]
   },
   {
     id: 25,
@@ -1204,30 +1204,30 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[8],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5937.webp",
+            "imageUrl": "/assets/archive/img_5937_cutout.webp",
             "altText": "Frente Camisa Jesse James MC Club",
             "sortOrder": 0,
             "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5938.webp",
-            "altText": "Detalle parches y etiqueta cuello Jesse James",
+            "imageUrl": "/assets/archive/img_5949_2_cutout.webp",
+            "altText": "Espalda gran Cruz bordada en hilo dorado",
             "sortOrder": 1,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5939.webp",
-            "altText": "Detalle etiqueta tejida",
+            "imageUrl": "/assets/archive/img_5938_cutout.webp",
+            "altText": "Detalle parches y etiqueta cuello Jesse James",
             "sortOrder": 2,
             "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5949_2.webp",
-            "altText": "Espalda gran Cruz bordada en hilo dorado",
+            "imageUrl": "/assets/archive/img_5939_cutout.webp",
+            "altText": "Detalle etiqueta tejida",
             "sortOrder": 3,
             "primaryImage": false
       }
-]
+    ]
   },
 ];
 
@@ -1249,8 +1249,8 @@ export function toProductSummary(detail: ProductDetail): ProductSummary {
     categorySlug: detail.category.slug,
     brandName: detail.brand.name,
     brandSlug: detail.brand.slug,
-    primaryImageUrl: detail.images[0]?.imageUrl ? detail.images[0].imageUrl.replace('.webp', '_cutout.webp') : null,
-    secondaryImageUrl: detail.images[1]?.imageUrl ? detail.images[1].imageUrl.replace('.webp', '_cutout.webp') : null,
+    primaryImageUrl: detail.images[0]?.imageUrl || null,
+    secondaryImageUrl: detail.images[1]?.imageUrl || null,
     imagesCount: detail.images.length
   };
 }

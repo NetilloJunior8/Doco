@@ -11,7 +11,7 @@ import { CartService } from '../../core/services/cart.service';
 import { QuickViewService } from '../../core/services/quick-view.service';
 import { SoundFxService } from '../../core/services/sound-fx.service';
 import { WhatsAppService } from '../../core/services/whatsapp.service';
-import { formatCondition, formatEra, formatMxn } from '../../core/utils/formatters';
+import { formatCondition, formatEra } from '../../core/utils/formatters';
 
 @Component({
   selector: 'doco-quick-view',
@@ -118,18 +118,18 @@ import { formatCondition, formatEra, formatMxn } from '../../core/utils/formatte
             </div>
           }
 
-          <!-- CENTERED SKU & PRICE (EXACT YEEZY REFERENCE: WJ-02) -->
+          <!-- CENTERED SKU & DETAILS (EXACT YEEZY REFERENCE: WJ-02) -->
           <div class="yeezy-info font-mono">
             <h1 class="yeezy-code">{{ yeezyCode() }}</h1>
             <div class="yeezy-subhead">
               <span>{{ itemTitle() }}</span>
-              <span class="sep">·</span>
-              <span class="price">{{ formatMxn(itemPrice()) }}</span>
             </div>
             <div class="yeezy-talla">
               <span>TALLA {{ itemSize() }}</span>
               <span class="sep">·</span>
               <span>1-OF-1 DISPONIBLE</span>
+              <span class="sep">·</span>
+              <span>PRECIO VÍA WHATSAPP</span>
             </div>
           </div>
 
@@ -151,7 +151,7 @@ import { formatCondition, formatEra, formatMxn } from '../../core/utils/formatte
               class="yeezy-btn-wa"
               (click)="orderWhatsApp()"
             >
-              <span>PEDIR POR WHATSAPP (CULIACÁN)</span>
+              <span>CONSULTAR PRECIO POR WHATSAPP (CULIACÁN)</span>
               <span>↗</span>
             </button>
 
@@ -587,30 +587,38 @@ export class DocoQuickViewComponent {
         .replace('_mannequin_back.webp', '')
         .replace('.webp', '');
 
-    // Primary cutout & Mannequin front
-    const prim = d?.images[0]?.imageUrl || s?.primaryImageUrl;
+    const images = d?.images || [];
+
+    // 1. FRONT
+    const prim = images[0]?.imageUrl || s?.primaryImageUrl;
     if (prim) {
       const base = normalizeBase(prim);
       slides.push({ url: `${base}_cutout.webp`, type: 'PRENDA // FRENTE' });
       slides.push({ url: `${base}_mannequin_front.webp`, type: 'MANIQUÍ // FRENTE' });
     }
 
-    // Secondary / Back Mannequin & Cutout
-    const sec = d?.images[1]?.imageUrl || s?.secondaryImageUrl;
-    if (sec) {
-      const secBase = normalizeBase(sec);
-      slides.push({ url: `${secBase}_mannequin_back.webp`, type: 'MANIQUÍ // ESPALDA' });
+    // 2. BACK (Search for true back in images or fallback)
+    const backCandidate =
+      images.find((img, idx) => idx > 0 && img.altText?.toLowerCase().includes('espalda')) ||
+      (images.length > 1 ? images[images.length - 1] : null);
+    const backUrl = backCandidate?.imageUrl || s?.secondaryImageUrl;
+    if (backUrl && normalizeBase(backUrl) !== (prim ? normalizeBase(prim) : '')) {
+      const secBase = normalizeBase(backUrl);
       slides.push({ url: `${secBase}_cutout.webp`, type: 'PRENDA // ESPALDA' });
+      slides.push({ url: `${secBase}_mannequin_back.webp`, type: 'MANIQUÍ // ESPALDA' });
     }
 
-    // Additional authentic photos (details, labels)
-    if (d?.images) {
-      d.images.slice(2).forEach((img, idx) => {
-        slides.push({ url: img.imageUrl, type: `DETALLE 0${idx + 1}` });
+    // 3. DETAILS (All remaining photos with clean cutouts)
+    images.forEach((img, idx) => {
+      const b = normalizeBase(img.imageUrl);
+      if (slides.some((sl) => sl.url.includes(b))) return;
+      slides.push({
+        url: `${b}_cutout.webp`,
+        type: img.altText ? img.altText.toUpperCase() : `DETALLE 0${idx + 1}`
       });
-    }
+    });
 
-    return slides.length ? slides : [{ url: prim || '', type: 'PRENDA' }];
+    return slides.length ? slides : [{ url: prim ? `${normalizeBase(prim)}_cutout.webp` : '', type: 'PRENDA' }];
   });
 
   readonly currentSlideUrl = computed(() => {
@@ -715,8 +723,7 @@ export class DocoQuickViewComponent {
     const title = this.itemTitle();
     const sku = this.itemSku();
     const size = this.itemSize();
-    const price = this.itemPrice();
-    const url = this.whatsapp.generatePieceInquiryUrl(title, sku, size, price);
+    const url = this.whatsapp.generatePieceInquiryUrl(title, sku, size);
     this.whatsapp.openUrl(url);
     this.soundFx.playClick();
   }
@@ -724,9 +731,5 @@ export class DocoQuickViewComponent {
   openBag(): void {
     this.soundFx.playClick();
     this.cart.openDrawer();
-  }
-
-  formatMxn(val: number): string {
-    return formatMxn(val);
   }
 }

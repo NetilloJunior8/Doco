@@ -25,46 +25,35 @@ export class WhatsAppService {
    */
   generateCartCheckoutUrl(
     items: CartItem[],
-    subtotal: number,
-    shipping: number,
-    total: number,
+    subtotal: number = 0,
+    shipping: number = 0,
+    total: number = 0,
     customer?: CustomerShippingInfo
   ): string {
     const lines: string[] = [];
 
-    if (customer?.orderNumber) {
-      lines.push(`*PEDIDO DOCO ARCHIVE REGISTRADO*`);
-      lines.push(`*Orden:* ${customer.orderNumber}`);
-    } else {
-      lines.push(`*PEDIDO DOCO ARCHIVE // CULIACÁN, SIN*`);
-    }
+    lines.push(`*CONSULTA DOCO ARCHIVE // CULIACÁN, SIN*`);
     lines.push('----------------------------------------');
 
     if (customer && customer.name.trim()) {
       lines.push('*DATOS DE ENTREGA (CULIACÁN):*');
       lines.push(`*Cliente:* ${customer.name.trim()}`);
       if (customer.phone.trim()) lines.push(`*Tel:* ${customer.phone.trim()}`);
-      lines.push(`*Destino:* ${customer.city.trim()}, ${customer.state.trim()} (CP ${customer.postalCode.trim()})`);
       lines.push(`*Dirección:* ${customer.address.trim()}`);
       if (customer.notes?.trim()) lines.push(`*Notas:* ${customer.notes.trim()}`);
       lines.push('----------------------------------------');
     }
 
-    lines.push('*PIEZAS SELECCIONADAS:*');
+    lines.push('*PIEZAS SOLICITADAS:*');
     items.forEach((item, idx) => {
-      const lineTotal = item.product.priceMxn * item.quantity;
       lines.push(
-        `${idx + 1}. *${item.product.title}* [${item.product.sku}]\n   Talla: ${item.product.sizeLabel} | Cant: ${item.quantity} | ${formatMxn(lineTotal)}`
+        `${idx + 1}. *${item.product.title}* [${item.product.sku}]\n   Talla: ${item.product.sizeLabel} | Cant: ${item.quantity}`
       );
     });
 
     lines.push('----------------------------------------');
-    lines.push(`*Subtotal:* ${formatMxn(subtotal)}`);
-    lines.push(`*Entrega:* ${shipping === 0 ? 'GRATIS (Culiacán)' : formatMxn(shipping)}`);
-    lines.push(`*TOTAL A TRANSFERIR:* ${formatMxn(total)}`);
-    lines.push('----------------------------------------');
     lines.push(
-      'Hola DOCO, ¿siguen disponibles las piezas para realizar la transferencia SPEI o depósito OXXO ahora mismo?'
+      'Hola DOCO, me interesan estas piezas del archivo. ¿Cuál sería el precio y disponibilidad para apartar o entrega personal en Culiacán?'
     );
 
     const message = lines.join('\n');
@@ -74,8 +63,8 @@ export class WhatsAppService {
   /**
    * Generates an instant inquiry link for an individual garment.
    */
-  generatePieceInquiryUrl(pieceTitle: string, sku: string, size: string, priceMxn: number): string {
-    const text = `Hola DOCO! Vi la pieza *${pieceTitle}* [${sku}] (Talla ${size}) en el catálogo (${formatMxn(priceMxn)}). ¿Sigue disponible en el vault para apartarla?`;
+  generatePieceInquiryUrl(pieceTitle: string, sku: string, size: string, priceMxn?: number): string {
+    const text = `Hola DOCO! Me interesa la pieza *${pieceTitle}* [${sku}] (Talla ${size}) del catálogo. ¿Cuál es el precio y disponibilidad para entrega en Culiacán?`;
     return this.buildUrl(text);
   }
 

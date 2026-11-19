@@ -86,11 +86,8 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
             <h1 class="font-display specs__title">{{ item.title }}</h1>
 
             <div class="specs__price-row font-mono">
-              <span class="specs__price">{{ formatMxn(item.priceMxn) }}</span>
-              @if (item.compareAtPriceMxn) {
-                <span class="specs__compare">{{ formatMxn(item.compareAtPriceMxn) }}</span>
-              }
-              <span class="specs__tax-tag">MXN · ENTREGA EN CULIACÁN</span>
+              <span class="specs__price">PRECIO VÍA WHATSAPP</span>
+              <span class="specs__tax-tag">COTIZACIÓN DIRECTA · CULIACÁN, SIN</span>
             </div>
 
             <p class="specs__desc">{{ item.description }}</p>
@@ -122,7 +119,7 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
                   </svg>
                 </span>
                 <span class="wa-btn-copy">
-                  <strong>PEDIR POR WHATSAPP</strong>
+                  <strong>CONSULTAR PRECIO POR WHATSAPP</strong>
                   <small>Apartado Inmediato · Culiacán, Sin.</small>
                 </span>
                 <span class="wa-arrow">↗</span>
@@ -159,7 +156,7 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
         <div class="mobile-buy-bar">
           <div class="mobile-buy-bar__price font-mono">
             <small>{{ item.sizeLabel }} · {{ item.brand.name }}</small>
-            <strong>{{ formatMxn(item.priceMxn) }}</strong>
+            <strong>COTIZAR VÍA WHATSAPP</strong>
           </div>
           <div class="mobile-buy-bar__buttons">
             <button
