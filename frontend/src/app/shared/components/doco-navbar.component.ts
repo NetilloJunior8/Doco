@@ -16,17 +16,31 @@ import { ThemeService } from '../../core/services/theme.service';
   template: `
     <header class="yeezy-nav" [class.is-open]="archiveView.isFilterOpen()">
       <div class="yeezy-nav__inner">
-        <!-- TOP LEFT: PLUS SYMBOL (+) -->
+        <!-- TOP LEFT: PLUS SYMBOL (+) / ZOOM SWITCHER (EXACT YEEZY REFERENCE) -->
         <div class="yeezy-nav__left">
           <button
             type="button"
             class="yeezy-plus-btn font-mono"
+            [class.is-active]="archiveView.isZoomedGrid()"
+            (click)="toggleZoom()"
+            [attr.aria-label]="archiveView.isZoomedGrid() ? 'Vista normal de cuadrícula' : 'Ampliar prendas en cuadrícula'"
+            [title]="archiveView.isZoomedGrid() ? 'Vista normal' : 'Ampliar prendas'"
+          >
+            <span class="plus-icon">{{ archiveView.isZoomedGrid() ? '‹' : '+' }}</span>
+          </button>
+
+          <button
+            type="button"
+            class="yeezy-filter-icon-btn font-mono"
             [class.is-active]="archiveView.isFilterOpen()"
             (click)="toggleFilters()"
-            aria-label="Abrir filtros de categorías y búsqueda"
-            title="Filtros y categorías"
+            aria-label="Buscar y filtrar prendas"
+            title="Buscar y filtrar"
           >
-            <span class="plus-icon">{{ archiveView.isFilterOpen() ? '−' : '+' }}</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="11" cy="11" r="7" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
           </button>
         </div>
 
@@ -209,6 +223,24 @@ import { ThemeService } from '../../core/services/theme.service';
 
     .plus-icon {
       font-weight: 300;
+    }
+
+    .yeezy-filter-icon-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.25rem 0.5rem;
+      margin-left: 0.25rem;
+      transition: color 0.15s ease, opacity 0.15s ease;
+    }
+
+    .yeezy-filter-icon-btn:hover,
+    .yeezy-filter-icon-btn.is-active {
+      color: var(--text-bone);
     }
 
     .yeezy-nav__center {
@@ -436,6 +468,11 @@ export class DocoNavbarComponent {
 
   readonly categories = FALLBACK_CATEGORIES;
   readonly brands = FALLBACK_BRANDS;
+
+  toggleZoom(): void {
+    this.soundFx.playClick();
+    this.archiveView.toggleGridZoom();
+  }
 
   toggleFilters(): void {
     this.soundFx.playClick();

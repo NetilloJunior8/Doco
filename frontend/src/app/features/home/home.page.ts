@@ -61,7 +61,11 @@ import { DocoProductCardComponent } from '../../shared/components/doco-product-c
     <!-- MAIN YEEZY ARCHIVE STAGE -->
     <main class="yeezy-stage">
       <!-- 6-COLUMN GRID (EXACT YEEZY REFERENCE: BD-10, WJ-02...) -->
-      <section class="yeezy-grid" [class.is-filtered]="archiveView.selectedCategory() || archiveView.selectedBrand()">
+      <section
+        class="yeezy-grid"
+        [class.is-zoomed]="archiveView.isZoomedGrid()"
+        [class.is-filtered]="archiveView.selectedCategory() || archiveView.selectedBrand()"
+      >
         @for (item of filteredProducts(); track item.id) {
           <doco-product-card [product]="item" />
         }
@@ -334,6 +338,26 @@ import { DocoProductCardComponent } from '../../shared/components/doco-product-c
       .yeezy-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 1.5rem 0.75rem;
+      }
+    }
+
+    /* ZOOMED GRID (3-COLUMN YEEZY VIEW) */
+    .yeezy-grid.is-zoomed {
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(2.5rem, 4.5vw, 5rem) clamp(1.5rem, 3vw, 3.5rem);
+    }
+
+    @media (max-width: 1000px) {
+      .yeezy-grid.is-zoomed {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem 1.25rem;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .yeezy-grid.is-zoomed {
+        grid-template-columns: 1fr;
+        gap: 2.25rem 1rem;
       }
     }
 

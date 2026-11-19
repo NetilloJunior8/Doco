@@ -9,7 +9,6 @@ import {
 import { ProductSummary } from '../../core/models/catalog.models';
 import { QuickViewService } from '../../core/services/quick-view.service';
 import { SoundFxService } from '../../core/services/sound-fx.service';
-import { formatMxn } from '../../core/utils/formatters';
 
 @Component({
   selector: 'doco-product-card',
@@ -48,7 +47,6 @@ import { formatMxn } from '../../core/utils/formatters';
       <!-- CENTERED MONOSPACE SKU (YEEZY STYLE: WJ-02 / DOCO-01) -->
       <div class="yeezy-item__label font-mono">
         <span class="yeezy-sku">{{ yeezySku() }}</span>
-        <span class="yeezy-sub">{{ formatMxn(product().priceMxn) }}</span>
       </div>
     </article>
   `,
@@ -180,9 +178,5 @@ export class DocoProductCardComponent {
   handleClick(): void {
     this.soundFx.playClick();
     this.quickView.open(this.product());
-  }
-
-  formatMxn(val: number): string {
-    return formatMxn(val);
   }
 }

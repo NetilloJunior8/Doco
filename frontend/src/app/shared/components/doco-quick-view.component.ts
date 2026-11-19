@@ -580,25 +580,27 @@ export class DocoQuickViewComponent {
     const s = this.summary();
     const slides: { url: string; type: string }[] = [];
 
-    // Primary cutout (or primary image)
+    const normalizeBase = (url: string) =>
+      url
+        .replace('_cutout.webp', '')
+        .replace('_mannequin_front.webp', '')
+        .replace('_mannequin_back.webp', '')
+        .replace('.webp', '');
+
+    // Primary cutout & Mannequin front
     const prim = d?.images[0]?.imageUrl || s?.primaryImageUrl;
     if (prim) {
-      const cutout = prim.replace('.webp', '_cutout.webp');
-      slides.push({ url: cutout, type: 'PRENDA // FRENTE' });
-
-      // Mannequin front
-      const mFront = prim.replace('.webp', '_mannequin_front.webp');
-      slides.push({ url: mFront, type: 'MANIQUÍ // FRENTE' });
+      const base = normalizeBase(prim);
+      slides.push({ url: `${base}_cutout.webp`, type: 'PRENDA // FRENTE' });
+      slides.push({ url: `${base}_mannequin_front.webp`, type: 'MANIQUÍ // FRENTE' });
     }
 
-    // Secondary cutout / mannequin back
+    // Secondary / Back Mannequin & Cutout
     const sec = d?.images[1]?.imageUrl || s?.secondaryImageUrl;
     if (sec) {
-      const mBack = sec.replace('.webp', '_mannequin_back.webp');
-      slides.push({ url: mBack, type: 'MANIQUÍ // ESPALDA' });
-
-      const backCutout = sec.replace('.webp', '_cutout.webp');
-      slides.push({ url: backCutout, type: 'PRENDA // ESPALDA' });
+      const secBase = normalizeBase(sec);
+      slides.push({ url: `${secBase}_mannequin_back.webp`, type: 'MANIQUÍ // ESPALDA' });
+      slides.push({ url: `${secBase}_cutout.webp`, type: 'PRENDA // ESPALDA' });
     }
 
     // Additional authentic photos (details, labels)

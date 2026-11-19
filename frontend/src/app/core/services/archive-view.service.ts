@@ -6,17 +6,17 @@ const INTRO_STORAGE_KEY = 'doco_intro_dismissed_v1';
 
 @Injectable({ providedIn: 'root' })
 export class ArchiveViewService {
-  readonly density = signal<ArchiveGridDensity>('M');
+  readonly isZoomedGrid = signal<boolean>(false);
   readonly isFilterOpen = signal<boolean>(false);
   readonly isInfoOpen = signal<boolean>(false);
-  readonly isIntroOpen = signal<boolean>(this.checkIntroInitial());
+  readonly isIntroOpen = signal<boolean>(true);
 
   readonly selectedCategory = signal<string | null>(null);
   readonly selectedBrand = signal<string | null>(null);
   readonly searchQuery = signal<string>('');
 
-  setDensity(d: ArchiveGridDensity): void {
-    this.density.set(d);
+  toggleGridZoom(): void {
+    this.isZoomedGrid.update((v) => !v);
   }
 
   toggleFilters(): void {
@@ -41,11 +41,6 @@ export class ArchiveViewService {
 
   closeIntro(): void {
     this.isIntroOpen.set(false);
-    try {
-      sessionStorage.setItem(INTRO_STORAGE_KEY, '1');
-    } catch {
-      // Ignore storage restrictions
-    }
   }
 
   selectCategory(slug: string | null): void {
