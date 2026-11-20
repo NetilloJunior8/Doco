@@ -62,24 +62,26 @@ import { formatCondition, formatEra } from '../../core/utils/formatters';
               ‹
             </button>
 
-            <!-- Image Viewport with Loupe Zoom -->
+            <!-- Image Viewport with Preloaded Slides, Touch Swipe & Zoom -->
             <div
               class="image-viewport"
-              [class.is-zooming]="isZooming()"
-              (mousemove)="onMouseMove($event)"
-              (mouseleave)="onMouseLeave()"
-              (click)="toggleMobileZoom()"
+              (touchstart)="onTouchStart($event)"
+              (touchend)="onTouchEnd($event)"
+              (click)="toggleZoom()"
+              [class.is-zoomed]="isZoomed()"
             >
-              @if (currentSlideUrl()) {
+              @for (slide of slideList(); track slide.url; let i = $index) {
                 <img
-                  [src]="currentSlideUrl()"
-                  [alt]="itemTitle()"
+                  [src]="slide.url"
+                  [alt]="itemTitle() + ' - ' + slide.type"
                   class="yeezy-slide-img"
+                  [class.is-active]="currentSlideIndex() === i"
                   (error)="onImgError($event)"
-                  [style.transform-origin]="zoomOrigin()"
-                  [style.transform]="isZooming() ? 'scale(2.2)' : 'scale(1)'"
+                  loading="eager"
                 />
-              } @else {
+              }
+
+              @if (slideList().length === 0) {
                 <div class="slide-placeholder font-mono">DOCO ARCHIVE</div>
               }
 
@@ -87,6 +89,16 @@ import { formatCondition, formatEra } from '../../core/utils/formatters';
               <span class="slide-type-tag font-mono">
                 {{ slideLabel(currentSlideIndex()) }}
               </span>
+
+              <!-- Subtle Zoom Toggle Button -->
+              <button
+                type="button"
+                class="zoom-toggle-btn font-mono"
+                (click)="$event.stopPropagation(); toggleZoom()"
+                [attr.aria-label]="isZoomed() ? 'Alejar' : 'Acercar'"
+              >
+                {{ isZoomed() ? 'ZOOM [−]' : 'ZOOM [+]' }}
+              </button>
             </div>
 
             <!-- Right Arrow -->
@@ -281,7 +293,7 @@ import { formatCondition, formatEra } from '../../core/utils/formatters';
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      padding: 1rem clamp(1rem, 3vw, 2.5rem) 4rem;
+      padding: 0.5rem clamp(1rem, 3vw, 2.5rem) 4rem;
       box-sizing: border-box;
       width: 100%;
       max-width: 900px;
@@ -329,17 +341,35 @@ import { formatCondition, formatEra } from '../../core/utils/formatters';
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      cursor: crosshair;
+      cursor: zoom-in;
       user-select: none;
+      touch-action: pan-y;
     }
 
+    .image-viewport.is-zoomed {
+      cursor: zoom-out;
+    }
+
+    /* ALL SLIDES PRELOADED & STACKED IN DOM FOR 0-STUTTER INSTANT FLIP */
     .yeezy-slide-img {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: contain;
-      transition: transform 0.14s cubic-bezier(0.2, 0.8, 0.4, 1);
-      will-change: transform, transform-origin;
+      opacity: 0;
+      transition: opacity 0.2s cubic-bezier(0.2, 0.8, 0.4, 1), transform 0.25s cubic-bezier(0.2, 0.8, 0.4, 1);
+      will-change: opacity, transform;
       pointer-events: none;
+    }
+
+    .yeezy-slide-img.is-active {
+      opacity: 1;
+      z-index: 2;
+    }
+
+    .image-viewport.is-zoomed .yeezy-slide-img.is-active {
+      transform: scale(1.85);
     }
 
     .slide-placeholder {
@@ -350,17 +380,38 @@ import { formatCondition, formatEra } from '../../core/utils/formatters';
 
     .slide-type-tag {
       position: absolute;
-      bottom: 6px;
+      bottom: 8px;
       left: 50%;
       transform: translateX(-50%);
       font-size: 0.62rem;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       color: var(--text-dim);
       text-transform: uppercase;
       pointer-events: none;
+      z-index: 5;
     }
 
-    /* DOTS (YEEZY STYLE: · · ·) */
+    .zoom-toggle-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-dim);
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      padding: 3px 6px;
+      cursor: pointer;
+      z-index: 6;
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .zoom-toggle-btn:hover {
+      color: var(--text-bone);
+      border-color: var(--text-bone);
+    }
+
+    /* DOTS (YEEZY STYLE: • • •) */
     .carousel-dots {
       display: flex;
       align-items: center;
@@ -374,9 +425,9 @@ import { formatCondition, formatEra } from '../../core/utils/formatters';
       border: none;
       color: var(--text-dim);
       cursor: pointer;
-      font-size: 1.25rem;
+      font-size: 1.4rem;
       line-height: 1;
-      padding: 0.2rem;
+      padding: 0.2rem 0.35rem;
       transition: color 0.15s ease;
     }
 
@@ -384,159 +435,139 @@ import { formatCondition, formatEra } from '../../core/utils/formatters';
       color: var(--text-bone);
     }
 
-    /* CENTERED SKU & TITLE (YEEZY WJ-02) */
+    /* INFO BLOCK */
     .yeezy-info {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       text-align: center;
-      gap: 0.35rem;
-      text-transform: uppercase;
-      margin-bottom: 1.75rem;
+      margin-bottom: 1.5rem;
+      width: 100%;
     }
 
     .yeezy-code {
-      font-size: 1.1rem;
-      font-weight: 600;
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      font-weight: 500;
       letter-spacing: 0.12em;
-      margin: 0;
+      margin: 0 0 0.35rem 0;
       color: var(--text-bone);
+      text-transform: uppercase;
     }
 
     .yeezy-subhead {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
       letter-spacing: 0.08em;
-      color: var(--text-secondary);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
     }
 
     .yeezy-talla {
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      color: var(--text-muted);
-      display: flex;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+      display: inline-flex;
       align-items: center;
       gap: 0.5rem;
     }
 
-    .sep {
-      color: var(--text-dim);
+    .yeezy-talla .sep {
+      color: var(--border-subtle);
     }
 
-    .price {
-      font-weight: 700;
-      color: var(--text-bone);
-    }
-
-    /* ORDER BOX (YEEZY SUBSCRIBE RECTANGLE STYLE) */
+    /* ORDER BOX */
     .yeezy-order-box {
       width: 100%;
-      max-width: 440px;
+      max-width: 360px;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 0.85rem;
+      gap: 0.75rem;
+      align-items: stretch;
     }
 
     .yeezy-btn-add {
-      width: 100%;
       background: var(--text-bone);
       color: var(--bg-void);
       border: 1px solid var(--text-bone);
       padding: 0.95rem 1.25rem;
-      font-size: 0.82rem;
-      font-weight: 700;
+      font-size: 0.75rem;
+      font-weight: 600;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       cursor: pointer;
-      transition: opacity 0.15s ease;
-      display: block;
-      text-align: center;
+      transition: opacity 0.15s ease, background 0.15s ease;
+      width: 100%;
     }
 
     .yeezy-btn-add:hover {
-      opacity: 0.88;
+      opacity: 0.85;
     }
 
     .yeezy-btn-add.is-added {
-      background: #10b981;
-      border-color: #10b981;
+      background: #555555;
       color: #ffffff;
+      border-color: #555555;
     }
 
     .yeezy-btn-wa {
-      width: 100%;
       background: transparent;
       color: var(--text-bone);
-      border: 1px solid var(--border-strong);
+      border: 1px solid var(--border-subtle);
       padding: 0.85rem 1.25rem;
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       cursor: pointer;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      transition: background 0.15s ease;
+      justify-content: space-between;
+      transition: border-color 0.15s ease, color 0.15s ease;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .yeezy-btn-wa:hover {
-      background: var(--bg-surface);
+      border-color: var(--text-bone);
     }
 
-    /* COLLAPSIBLE INFORMATION */
     .yeezy-info-toggle {
       background: transparent;
       border: none;
-      color: var(--text-bone);
-      font-size: 0.75rem;
-      letter-spacing: 0.14em;
+      color: var(--text-dim);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       cursor: pointer;
-      padding: 0.5rem;
-      margin-top: 0.5rem;
-      transition: opacity 0.15s ease;
+      padding: 0.5rem 0;
+      text-align: center;
+      margin-top: 0.25rem;
+      transition: color 0.15s ease;
     }
 
     .yeezy-info-toggle:hover {
-      opacity: 0.6;
+      color: var(--text-bone);
     }
 
     .yeezy-info-content {
-      width: 100%;
       border-top: 1px solid var(--border-subtle);
-      border-bottom: 1px solid var(--border-subtle);
-      padding: 1rem 0;
+      padding-top: 0.85rem;
+      margin-top: 0.25rem;
       display: flex;
       flex-direction: column;
-      gap: 0.55rem;
-      font-size: 0.72rem;
-      animation: infoFade 0.16s ease-out;
-    }
-
-    @keyframes infoFade {
-      from {
-        opacity: 0;
-        transform: translateY(-4px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      gap: 0.5rem;
+      text-align: left;
     }
 
     .info-line {
       display: flex;
       justify-content: space-between;
       gap: 1rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
     }
 
     .info-k {
       color: var(--text-dim);
-      letter-spacing: 0.08em;
+      font-weight: 500;
+      flex-shrink: 0;
     }
 
     .info-v {
@@ -552,30 +583,41 @@ export class DocoQuickViewComponent {
   private readonly whatsapp = inject(WhatsAppService);
 
   readonly currentSlideIndex = signal(0);
-  readonly isZooming = signal(false);
-  readonly zoomOrigin = signal('50% 50%');
-  readonly recentlyAdded = signal(false);
+  readonly isZoomed = signal(false);
   readonly infoExpanded = signal(false);
+  readonly recentlyAdded = signal(false);
 
-  readonly detail = computed(() => this.quickView.detail());
-  readonly summary = computed(() => this.quickView.summary());
+  // Touch Swipe tracking
+  private touchStartX = 0;
+  private touchStartY = 0;
 
-  readonly itemSku = computed(() => this.detail()?.sku || this.summary()?.sku || '');
-  readonly yeezyCode = computed(() => this.itemSku().replace('DOCO-ARC-', 'DOCO-'));
-  readonly itemTitle = computed(() => this.detail()?.title || this.summary()?.title || '');
-  readonly itemPrice = computed(() => this.detail()?.priceMxn || this.summary()?.priceMxn || 0);
-  readonly itemSize = computed(() => this.detail()?.sizeLabel || this.summary()?.sizeLabel || 'OS');
-  readonly itemEra = computed(() => {
-    const era = this.detail()?.styleEra || this.summary()?.styleEra;
-    return era ? formatEra(era) : 'Y2K / STREETWEAR';
+  readonly summary = computed<ProductSummary | null>(() => this.quickView.summary());
+  readonly detail = computed<ProductDetail | null>(() => this.quickView.detail());
+
+  readonly yeezyCode = computed(() => {
+    const s = this.summary();
+    if (!s) return 'DOCO-ARC';
+    return s.sku.replace('DOCO-ARC-', 'DOCO-');
   });
+
+  readonly itemTitle = computed(() => this.summary()?.title || '');
+  readonly itemSize = computed(() => this.summary()?.sizeLabel || 'UNISIZE');
   readonly itemCondition = computed(() => {
-    const cond = this.detail()?.conditionGrade || this.summary()?.conditionGrade;
-    return cond ? formatCondition(cond) : 'VINTAGE 9/10';
+    const d = this.detail();
+    const s = this.summary();
+    const grade = d?.conditionGrade || s?.conditionGrade || 'MINT_9_10';
+    return formatCondition(grade);
   });
-  readonly itemMeasurements = computed(() => this.detail()?.measurements || null);
+  readonly itemEra = computed(() => {
+    const d = this.detail();
+    const s = this.summary();
+    const era = d?.styleEra || s?.styleEra || 'Y2K';
+    return formatEra(era);
+  });
+  readonly itemMeasurements = computed(() => this.detail()?.measurements || '');
 
-  readonly slideList = computed(() => {
+  // PURE GARMENT CUTOUT SLIDES ONLY (ZERO MANNEQUINS)
+  readonly slideList = computed<{ url: string; type: string }[]>(() => {
     const d = this.detail();
     const s = this.summary();
     const slides: { url: string; type: string }[] = [];
@@ -594,21 +636,19 @@ export class DocoQuickViewComponent {
     if (prim) {
       const base = normalizeBase(prim);
       slides.push({ url: `${base}_cutout.webp`, type: 'PRENDA // FRENTE' });
-      slides.push({ url: `${base}_mannequin_front.webp`, type: 'MANIQUÍ // FRENTE' });
     }
 
-    // 2. BACK (Search for true back in images or fallback)
-    const backCandidate =
-      images.find((img, idx) => idx > 0 && img.altText?.toLowerCase().includes('espalda')) ||
-      (images.length > 1 ? images[images.length - 1] : null);
+    // 2. BACK (Only if an explicit back image exists)
+    const backCandidate = images.find(
+      (img) => img.altText?.toLowerCase().includes('espalda')
+    );
     const backUrl = backCandidate?.imageUrl || s?.secondaryImageUrl;
     if (backUrl && normalizeBase(backUrl) !== (prim ? normalizeBase(prim) : '')) {
       const secBase = normalizeBase(backUrl);
       slides.push({ url: `${secBase}_cutout.webp`, type: 'PRENDA // ESPALDA' });
-      slides.push({ url: `${secBase}_mannequin_back.webp`, type: 'MANIQUÍ // ESPALDA' });
     }
 
-    // 3. DETAILS (All remaining photos with clean cutouts)
+    // 3. DETAILS (Clean cutouts of tags, graphics, close-ups)
     images.forEach((img, idx) => {
       const b = normalizeBase(img.imageUrl);
       if (slides.some((sl) => sl.url.includes(b))) return;
@@ -618,13 +658,9 @@ export class DocoQuickViewComponent {
       });
     });
 
-    return slides.length ? slides : [{ url: prim ? `${normalizeBase(prim)}_cutout.webp` : '', type: 'PRENDA' }];
-  });
-
-  readonly currentSlideUrl = computed(() => {
-    const list = this.slideList();
-    const idx = this.currentSlideIndex();
-    return list[idx]?.url || list[0]?.url || '';
+    return slides.length
+      ? slides
+      : [{ url: prim ? `${normalizeBase(prim)}_cutout.webp` : '', type: 'PRENDA // FRENTE' }];
   });
 
   slideLabel(idx: number): string {
@@ -656,7 +692,7 @@ export class DocoQuickViewComponent {
   prevSlide(): void {
     if (this.currentSlideIndex() > 0) {
       this.currentSlideIndex.update((i) => i - 1);
-      this.isZooming.set(false);
+      this.isZoomed.set(false);
       this.soundFx.playClick();
     }
   }
@@ -664,45 +700,48 @@ export class DocoQuickViewComponent {
   nextSlide(): void {
     if (this.currentSlideIndex() < this.slideList().length - 1) {
       this.currentSlideIndex.update((i) => i + 1);
-      this.isZooming.set(false);
+      this.isZoomed.set(false);
       this.soundFx.playClick();
     }
   }
 
   goToSlide(i: number): void {
     this.currentSlideIndex.set(i);
-    this.isZooming.set(false);
+    this.isZoomed.set(false);
     this.soundFx.playClick();
   }
 
-  onImgError(e: Event): void {
-    const el = e.target as HTMLImageElement;
-    if (el) {
-      if (el.src.includes('_cutout.webp')) {
-        el.src = el.src.replace('_cutout.webp', '.webp');
-      } else if (el.src.includes('_mannequin_front.webp')) {
-        el.src = el.src.replace('_mannequin_front.webp', '.webp');
-      } else if (el.src.includes('_mannequin_back.webp')) {
-        el.src = el.src.replace('_mannequin_back.webp', '.webp');
+  toggleZoom(): void {
+    this.isZoomed.update((v) => !v);
+  }
+
+  onTouchStart(e: TouchEvent): void {
+    if (e.touches.length === 1) {
+      this.touchStartX = e.touches[0].clientX;
+      this.touchStartY = e.touches[0].clientY;
+    }
+  }
+
+  onTouchEnd(e: TouchEvent): void {
+    if (e.changedTouches.length === 1) {
+      const deltaX = e.changedTouches[0].clientX - this.touchStartX;
+      const deltaY = e.changedTouches[0].clientY - this.touchStartY;
+      // If horizontal swipe is dominant and exceeds threshold
+      if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
+        if (deltaX < 0) {
+          this.nextSlide();
+        } else {
+          this.prevSlide();
+        }
       }
     }
   }
 
-  onMouseMove(e: MouseEvent): void {
-    const el = e.currentTarget as HTMLElement;
-    const rect = el.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    this.zoomOrigin.set(`${x}% ${y}%`);
-    this.isZooming.set(true);
-  }
-
-  onMouseLeave(): void {
-    this.isZooming.set(false);
-  }
-
-  toggleMobileZoom(): void {
-    this.isZooming.update((v) => !v);
+  onImgError(e: Event): void {
+    const el = e.target as HTMLImageElement;
+    if (el && el.src.includes('_cutout.webp')) {
+      el.src = el.src.replace('_cutout.webp', '.webp');
+    }
   }
 
   toggleInformation(): void {
@@ -720,16 +759,16 @@ export class DocoQuickViewComponent {
   }
 
   orderWhatsApp(): void {
-    const title = this.itemTitle();
-    const sku = this.itemSku();
-    const size = this.itemSize();
-    const url = this.whatsapp.generatePieceInquiryUrl(title, sku, size);
-    this.whatsapp.openUrl(url);
+    const sum = this.summary();
+    if (!sum) return;
+    const url = this.whatsapp.generatePieceInquiryUrl(sum.title, sum.sku, sum.sizeLabel);
     this.soundFx.playClick();
+    window.open(url, '_blank', 'noopener,noreferrer');
   }
 
   openBag(): void {
     this.soundFx.playClick();
+    this.quickView.close();
     this.cart.openDrawer();
   }
 }

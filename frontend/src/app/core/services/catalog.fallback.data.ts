@@ -820,22 +820,22 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[4],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5866_cutout.webp",
-            "altText": "Espalda Beartooth Harley-Davidson Cody",
-            "sortOrder": 0,
-            "primaryImage": true
+        "imageUrl": "/assets/archive/img_5867_cutout.webp",
+        "altText": "Frente Harley-Davidson Pocket Tee Cody Wyoming",
+        "sortOrder": 0,
+        "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5868_cutout.webp",
-            "altText": "Frente Harley-Davidson",
-            "sortOrder": 1,
-            "primaryImage": false
+        "imageUrl": "/assets/archive/img_5866_cutout.webp",
+        "altText": "Espalda Beartooth Harley-Davidson Cody Wyoming",
+        "sortOrder": 1,
+        "primaryImage": false
       },
       {
-            "imageUrl": "/assets/archive/img_5867_cutout.webp",
-            "altText": "Detalle serigrafía moto y edificio",
-            "sortOrder": 2,
-            "primaryImage": false
+        "imageUrl": "/assets/archive/img_5868_cutout.webp",
+        "altText": "Detalle bolsillo con logo Harley-Davidson y etiqueta",
+        "sortOrder": 2,
+        "primaryImage": false
       }
     ]
   },
@@ -966,34 +966,16 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[7],
     images: [
       {
-            "imageUrl": "/assets/archive/img_5903_cutout.webp",
-            "altText": "Frente Misfits Skull Tee",
-            "sortOrder": 0,
-            "primaryImage": true
+        "imageUrl": "/assets/archive/img_5903_cutout.webp",
+        "altText": "Frente Misfits Fiend Skull Punk Tee",
+        "sortOrder": 0,
+        "primaryImage": true
       },
       {
-            "imageUrl": "/assets/archive/img_5908_cutout.webp",
-            "altText": "Espalda Misfits",
-            "sortOrder": 1,
-            "primaryImage": false
-      },
-      {
-            "imageUrl": "/assets/archive/img_5904_cutout.webp",
-            "altText": "Detalle calavera Misfits y colores",
-            "sortOrder": 2,
-            "primaryImage": false
-      },
-      {
-            "imageUrl": "/assets/archive/img_5905_cutout.webp",
-            "altText": "Etiqueta original Misfits",
-            "sortOrder": 3,
-            "primaryImage": false
-      },
-      {
-            "imageUrl": "/assets/archive/img_5906_cutout.webp",
-            "altText": "Detalle textura algodón",
-            "sortOrder": 4,
-            "primaryImage": false
+        "imageUrl": "/assets/archive/img_5904_cutout.webp",
+        "altText": "Detalle serigrafía Fiend Skull y etiqueta oficial Misfits",
+        "sortOrder": 1,
+        "primaryImage": false
       }
     ]
   },
@@ -1229,9 +1211,50 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
       }
     ]
   },
+  {
+    id: 26,
+    sku: 'DOCO-ARC-026',
+    title: 'Ed Hardy Love Dies Hard Skull & Bones Black Tee',
+    slug: 'ed-hardy-love-dies-hard-skull-and-bones-black-tee-doco-arc-026',
+    description: 'Playera Ed Hardy original con gran serigrafía frontal Love Dies Hard, calavera con corazón y huesos cruzados, y firma Don Ed Hardy Designs en tipografía roja en espalda.',
+    priceMxn: 1390,
+    compareAtPriceMxn: 1700,
+    sizeLabel: 'L',
+    measurements: 'Pecho 56cm · Largo 72cm · Hombro 50cm',
+    styleEra: 'Y2K',
+    conditionGrade: 'MINT_9_10',
+    stock: 1,
+    dropTag: 'DROP #01',
+    featured: true,
+    category: FALLBACK_CATEGORIES[0],
+    brand: FALLBACK_BRANDS[0],
+    images: [
+      {
+        "imageUrl": "/assets/archive/img_5905_cutout.webp",
+        "altText": "Frente Ed Hardy Love Dies Hard",
+        "sortOrder": 0,
+        "primaryImage": true
+      },
+      {
+        "imageUrl": "/assets/archive/img_5908_cutout.webp",
+        "altText": "Espalda Don Ed Hardy Designs",
+        "sortOrder": 1,
+        "primaryImage": false
+      },
+      {
+        "imageUrl": "/assets/archive/img_5906_cutout.webp",
+        "altText": "Detalle etiqueta cuello Ed Hardy L",
+        "sortOrder": 2,
+        "primaryImage": false
+      }
+    ]
+  }
 ];
 
 export function toProductSummary(detail: ProductDetail): ProductSummary {
+  const backImage = detail.images.find(
+    (img) => img.altText?.toLowerCase().includes('espalda')
+  );
   return {
     id: detail.id,
     sku: detail.sku,
@@ -1250,7 +1273,7 @@ export function toProductSummary(detail: ProductDetail): ProductSummary {
     brandName: detail.brand.name,
     brandSlug: detail.brand.slug,
     primaryImageUrl: detail.images[0]?.imageUrl || null,
-    secondaryImageUrl: detail.images[1]?.imageUrl || null,
+    secondaryImageUrl: backImage?.imageUrl || null,
     imagesCount: detail.images.length
   };
 }
