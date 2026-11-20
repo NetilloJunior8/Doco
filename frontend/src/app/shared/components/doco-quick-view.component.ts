@@ -727,13 +727,13 @@ export class DocoQuickViewComponent {
         slides.push({ url: backUrl, type: 'PRENDA // ESPALDA' });
       }
 
-      // 3. DETAILS: Pristine original .webp photos showing fabric, tags, and graphics without flood-fill holes
+      // 3. DETAILS: Transparent cutout photos with zero wooden table background
       images.forEach((img, idx) => {
         const b = normalizeBase(img.imageUrl);
         if (slides.some((sl) => normalizeBase(sl.url) === b)) return;
         const detailUrl = img.imageUrl.includes('_cutout.webp')
-          ? `${b}.webp`
-          : img.imageUrl;
+          ? img.imageUrl
+          : `${b}_cutout.webp`;
         slides.push({
           url: detailUrl,
           type: img.altText ? img.altText.toUpperCase() : `DETALLE 0${idx + 1}`
