@@ -3,6 +3,7 @@ import {
   Component,
   HostListener,
   computed,
+  effect,
   inject,
   signal
 } from '@angular/core';
@@ -67,7 +68,7 @@ import { formatCondition, formatEra } from '../../core/utils/formatters';
               class="image-viewport"
               (touchstart)="onTouchStart($event)"
               (touchend)="onTouchEnd($event)"
-              (click)="toggleZoom()"
+              (click)="handleViewportClick()"
               [class.is-zoomed]="isZoomed()"
             >
               @for (slide of slideList(); track slide.url; let i = $index) {
@@ -112,6 +113,24 @@ import { formatCondition, formatEra } from '../../core/utils/formatters';
               ›
             </button>
           </div>
+
+          <!-- HORIZONTAL THUMBNAIL SELECTOR (STRICTLY LEFT TO RIGHT) -->
+          @if (slideList().length > 1) {
+            <div class="carousel-thumbs font-mono" role="tablist" aria-label="Vistas del artículo">
+              @for (slide of slideList(); track slide.url; let i = $index) {
+                <button
+                  type="button"
+                  class="thumb-pill"
+                  [class.is-active]="currentSlideIndex() === i"
+                  (click)="goToSlide(i)"
+                  [attr.aria-label]="'Ver ' + slide.type"
+                >
+                  <img [src]="slide.url" [alt]="slide.type" class="thumb-mini-img" (error)="onImgError($event)" />
+                  <span class="thumb-lbl">{{ slideShortLabel(slide, i) }}</span>
+                </button>
+              }
+            </div>
+          }
 
           <!-- DOT INDICATORS (YEEZY EXACT STYLE) -->
           @if (slideList().length > 1) {
@@ -411,6 +430,55 @@ import { formatCondition, formatEra } from '../../core/utils/formatters';
       border-color: var(--text-bone);
     }
 
+    /* HORIZONTAL THUMBNAILS (LTR STRIP) */
+    .carousel-thumbs {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 0.75rem 0 0.5rem;
+      flex-wrap: wrap;
+      max-width: 100%;
+    }
+
+    .thumb-pill {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-dim);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25rem 0.55rem;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+
+    .thumb-pill:hover {
+      border-color: var(--text-bone);
+      color: var(--text-bone);
+    }
+
+    .thumb-pill.is-active {
+      border-color: var(--text-bone);
+      color: var(--text-bone);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .thumb-mini-img {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .thumb-lbl {
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
     /* DOTS (YEEZY STYLE: • • •) */
     .carousel-dots {
       display: flex;
@@ -591,6 +659,17 @@ export class DocoQuickViewComponent {
   private touchStartX = 0;
   private touchStartY = 0;
 
+  constructor() {
+    // Reset slide, zoom, and info every time a product is opened
+    effect(() => {
+      if (this.quickView.isOpen()) {
+        this.currentSlideIndex.set(0);
+        this.isZoomed.set(false);
+        this.infoExpanded.set(false);
+      }
+    }, { allowSignalWrites: true });
+  }
+
   readonly summary = computed<ProductSummary | null>(() => this.quickView.summary());
   readonly detail = computed<ProductDetail | null>(() => this.quickView.detail());
 
@@ -616,7 +695,7 @@ export class DocoQuickViewComponent {
   });
   readonly itemMeasurements = computed(() => this.detail()?.measurements || '');
 
-  // PURE GARMENT CUTOUT SLIDES ONLY (ZERO MANNEQUINS)
+  // PURE GARMENT SLIDES: FRONT & BACK USE TRANSPARENT CUTOUTS, ALL DETAILS USE PRISTINE ORIGINAL PHOTOS
   readonly slideList = computed<{ url: string; type: string }[]>(() => {
     const d = this.detail();
     const s = this.summary();
@@ -631,41 +710,77 @@ export class DocoQuickViewComponent {
 
     const images = d?.images || [];
 
-    // 1. FRONT
-    const prim = images[0]?.imageUrl || s?.primaryImageUrl;
-    if (prim) {
-      const base = normalizeBase(prim);
-      slides.push({ url: `${base}_cutout.webp`, type: 'PRENDA // FRENTE' });
-    }
+    if (images.length > 0) {
+      // 1. FRONT (Always first in LTR sequence)
+      const prim = images[0];
+      const primUrl = prim.imageUrl.includes('_cutout.webp')
+        ? prim.imageUrl
+        : `${normalizeBase(prim.imageUrl)}_cutout.webp`;
+      slides.push({ url: primUrl, type: 'PRENDA // FRENTE' });
 
-    // 2. BACK (Only if an explicit back image exists)
-    const backCandidate = images.find(
-      (img) => img.altText?.toLowerCase().includes('espalda')
-    );
-    const backUrl = backCandidate?.imageUrl || s?.secondaryImageUrl;
-    if (backUrl && normalizeBase(backUrl) !== (prim ? normalizeBase(prim) : '')) {
-      const secBase = normalizeBase(backUrl);
-      slides.push({ url: `${secBase}_cutout.webp`, type: 'PRENDA // ESPALDA' });
-    }
+      // 2. BACK (If an explicit back view exists)
+      const back = images.find((img) => img.altText?.toLowerCase().includes('espalda'));
+      if (back && normalizeBase(back.imageUrl) !== normalizeBase(prim.imageUrl)) {
+        const backUrl = back.imageUrl.includes('_cutout.webp')
+          ? back.imageUrl
+          : `${normalizeBase(back.imageUrl)}_cutout.webp`;
+        slides.push({ url: backUrl, type: 'PRENDA // ESPALDA' });
+      }
 
-    // 3. DETAILS (Clean cutouts of tags, graphics, close-ups)
-    images.forEach((img, idx) => {
-      const b = normalizeBase(img.imageUrl);
-      if (slides.some((sl) => sl.url.includes(b))) return;
-      slides.push({
-        url: `${b}_cutout.webp`,
-        type: img.altText ? img.altText.toUpperCase() : `DETALLE 0${idx + 1}`
+      // 3. DETAILS: Pristine original .webp photos showing fabric, tags, and graphics without flood-fill holes
+      images.forEach((img, idx) => {
+        const b = normalizeBase(img.imageUrl);
+        if (slides.some((sl) => normalizeBase(sl.url) === b)) return;
+        const detailUrl = img.imageUrl.includes('_cutout.webp')
+          ? `${b}.webp`
+          : img.imageUrl;
+        slides.push({
+          url: detailUrl,
+          type: img.altText ? img.altText.toUpperCase() : `DETALLE 0${idx + 1}`
+        });
       });
-    });
+    } else {
+      const prim = s?.primaryImageUrl;
+      if (prim) {
+        slides.push({
+          url: prim.includes('_cutout.webp') ? prim : `${normalizeBase(prim)}_cutout.webp`,
+          type: 'PRENDA // FRENTE'
+        });
+      }
+      const sec = s?.secondaryImageUrl;
+      if (sec && normalizeBase(sec) !== (prim ? normalizeBase(prim) : '')) {
+        slides.push({
+          url: sec.includes('_cutout.webp') ? sec : `${normalizeBase(sec)}_cutout.webp`,
+          type: 'PRENDA // ESPALDA'
+        });
+      }
+    }
 
     return slides.length
       ? slides
-      : [{ url: prim ? `${normalizeBase(prim)}_cutout.webp` : '', type: 'PRENDA // FRENTE' }];
+      : [{ url: '/assets/archive/img_5487_2_cutout.webp', type: 'PRENDA // FRENTE' }];
   });
 
   slideLabel(idx: number): string {
     const list = this.slideList();
     return list[idx]?.type || '';
+  }
+
+  slideShortLabel(slide: { url: string; type: string }, i: number): string {
+    if (slide.type.includes('FRENTE')) return 'FRENTE';
+    if (slide.type.includes('ESPALDA')) return 'ESPALDA';
+    return `DETALLE 0${i + 1}`;
+  }
+
+  handleViewportClick(): void {
+    if (this.isZoomed()) {
+      this.isZoomed.set(false);
+      return;
+    }
+    const total = this.slideList().length;
+    if (total <= 1) return;
+    const next = (this.currentSlideIndex() + 1) % total;
+    this.goToSlide(next);
   }
 
   @HostListener('window:keydown.escape')

@@ -58,7 +58,7 @@ import { WhatsAppService } from '../../core/services/whatsapp.service';
       </div>
 
       <div class="doco-container footer__bottom font-mono">
-        <span>© 2026 DOCO.TM — CULIACÁN, SINALOA, MÉXICO</span>
+        <span>(C) 2026 DOCO.TM - CULIACAN, SINALOA, MEXICO</span>
         <span>VAULT ARCHIVE // STREETWEAR // Y2K</span>
       </div>
     </footer>
