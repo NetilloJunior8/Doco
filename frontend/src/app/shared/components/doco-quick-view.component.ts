@@ -83,7 +83,7 @@ import { formatCondition, formatEra } from '../../core/utils/formatters';
               }
 
               @if (slideList().length === 0) {
-                <div class="slide-placeholder font-mono">DOCO ARCHIVE</div>
+                <div class="slide-placeholder font-mono">THEDOCOO ARCHIVE</div>
               }
 
               <!-- Tag indicator for current view type -->
@@ -769,7 +769,14 @@ export class DocoQuickViewComponent {
   slideShortLabel(slide: { url: string; type: string }, i: number): string {
     if (slide.type.includes('FRENTE')) return 'FRENTE';
     if (slide.type.includes('ESPALDA')) return 'ESPALDA';
-    return `DETALLE 0${i + 1}`;
+    const detailSlides = this.slideList().filter(
+      (s) => !s.type.includes('FRENTE') && !s.type.includes('ESPALDA')
+    );
+    if (detailSlides.length <= 1) {
+      return 'DETALLE';
+    }
+    const detailIdx = detailSlides.findIndex((s) => s.url === slide.url) + 1;
+    return `DETALLE 0${detailIdx}`;
   }
 
   handleViewportClick(): void {

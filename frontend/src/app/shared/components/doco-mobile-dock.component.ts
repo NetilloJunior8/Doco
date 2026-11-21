@@ -73,7 +73,7 @@ import { WhatsAppService } from '../../core/services/whatsapp.service';
           type="button"
           class="dock-item dock-item--wa"
           (click)="openWhatsApp()"
-          aria-label="Atención por WhatsApp DOCO Culiacán"
+          aria-label="Atención por WhatsApp Thedocoo Culiacán"
         >
           <span class="dock-icon">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">

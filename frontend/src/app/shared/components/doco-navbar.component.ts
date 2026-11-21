@@ -44,12 +44,12 @@ import { ThemeService } from '../../core/services/theme.service';
           </button>
         </div>
 
-        <!-- TOP CENTER: DISCREET SMALL DOCO LOGO -->
+        <!-- TOP CENTER: DISCREET SMALL THEDOCOO LOGO -->
         <div class="yeezy-nav__center">
-          <a routerLink="/" class="yeezy-brand" (click)="onLogoClick($event)" aria-label="DOCO">
+          <a routerLink="/" class="yeezy-brand" (click)="onLogoClick($event)" aria-label="Thedocoo">
             <img
               [src]="theme.isLight() ? '/assets/brand/doco-logo-dark.png' : '/assets/brand/doco-logo-light.png'"
-              alt="DOCO"
+              alt="Thedocoo"
               class="yeezy-logo"
             />
           </a>

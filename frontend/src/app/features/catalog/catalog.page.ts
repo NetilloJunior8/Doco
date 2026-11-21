@@ -21,7 +21,7 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
       <div class="catalog-top-bar">
         <doco-section-header
           eyebrow="ARCHIVO COMPLETO // DROP #01 CULIACÁN"
-          title="CATÁLOGO DOCO"
+          title="CATÁLOGO THEDOCOO"
         />
 
         <!-- Layout Density Switcher (Dense 4-col vs Editorial 2-col) -->

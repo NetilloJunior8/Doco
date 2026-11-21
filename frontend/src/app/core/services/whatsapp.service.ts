@@ -32,7 +32,7 @@ export class WhatsAppService {
   ): string {
     const lines: string[] = [];
 
-    lines.push(`*CONSULTA DOCO ARCHIVE // CULIACÁN, SIN*`);
+    lines.push(`*CONSULTA THEDOCOO ARCHIVE // CULIACÁN, SIN*`);
     lines.push('----------------------------------------');
 
     if (customer && customer.name.trim()) {
@@ -53,7 +53,7 @@ export class WhatsAppService {
 
     lines.push('----------------------------------------');
     lines.push(
-      'Hola DOCO, me interesan estas piezas del archivo. ¿Cuál sería el precio y disponibilidad para apartar o entrega personal en Culiacán?'
+      'Hola Thedocoo, me interesan estas piezas del archivo. ¿Cuál sería el precio y disponibilidad para apartar o entrega personal en Culiacán?'
     );
 
     const message = lines.join('\n');
@@ -64,7 +64,7 @@ export class WhatsAppService {
    * Generates an instant inquiry link for an individual garment.
    */
   generatePieceInquiryUrl(pieceTitle: string, sku: string, size: string, priceMxn?: number): string {
-    const text = `Hola DOCO! Me interesa la pieza *${pieceTitle}* [${sku}] (Talla ${size}) del catálogo. ¿Cuál es el precio y disponibilidad para entrega en Culiacán?`;
+    const text = `Hola Thedocoo! Me interesa la pieza *${pieceTitle}* [${sku}] (Talla ${size}) del catálogo. ¿Cuál es el precio y disponibilidad para entrega en Culiacán?`;
     return this.buildUrl(text);
   }
 
@@ -72,7 +72,7 @@ export class WhatsAppService {
    * General inquiry / direct personal stylist chat.
    */
   generateGeneralInquiryUrl(): string {
-    const text = 'Hola DOCO! Me gustaría consultar disponibilidad de piezas en el showroom / catálogo de Culiacán.';
+    const text = 'Hola Thedocoo! Me gustaría consultar disponibilidad de piezas en el showroom / catálogo de Culiacán.';
     return this.buildUrl(text);
   }
 

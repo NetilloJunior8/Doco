@@ -361,7 +361,8 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[5],
     images: [
       { imageUrl: '/assets/archive/img_5876_cutout.webp', altText: 'Frente Southpole 1991 Heavy Embroidered Tee', sortOrder: 0, primaryImage: true },
-      { imageUrl: '/assets/archive/img_5877_cutout.webp', altText: 'Espalda Southpole SP Archival Graphic', sortOrder: 1, primaryImage: false }
+      { imageUrl: '/assets/archive/img_5877_cutout.webp', altText: 'Detalle serigrafía y cuello Southpole SP', sortOrder: 1, primaryImage: false },
+      { imageUrl: '/assets/archive/img_5878_cutout.webp', altText: 'Detalle parche bordado Southpole 1991', sortOrder: 2, primaryImage: false }
     ]
   },
   {
@@ -589,7 +590,7 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[4],
     images: [
       { imageUrl: '/assets/archive/img_5846_cutout.webp', altText: 'Frente Harley-Davidson Technical Utility Shirt', sortOrder: 0, primaryImage: true },
-      { imageUrl: '/assets/archive/img_5847_cutout.webp', altText: 'Espalda ventilada Harley-Davidson Utility', sortOrder: 1, primaryImage: false }
+      { imageUrl: '/assets/archive/img_5847_cutout.webp', altText: 'Detalle cuello y solapa ventilada Harley-Davidson', sortOrder: 1, primaryImage: false }
     ]
   },
   {
@@ -633,7 +634,7 @@ export const FALLBACK_PRODUCTS: ProductDetail[] = [
     brand: FALLBACK_BRANDS[4],
     images: [
       { imageUrl: '/assets/archive/img_5862_cutout.webp', altText: 'Frente Harley-Davidson Rust Orange Garage Shirt', sortOrder: 0, primaryImage: true },
-      { imageUrl: '/assets/archive/img_5864_cutout.webp', altText: 'Espalda Willie G Skull & H-D Script', sortOrder: 1, primaryImage: false }
+      { imageUrl: '/assets/archive/img_5864_cutout.webp', altText: 'Detalle franja Willie G Skull y bordado', sortOrder: 1, primaryImage: false }
     ]
   },
   {

@@ -14,7 +14,7 @@ import { WhatsAppService } from '../../core/services/whatsapp.service';
           <div class="popover-head">
             <div class="status-indicator">
               <span class="status-dot"></span>
-              <strong>DOCO VAULT // CULIACÁN</strong>
+              <strong>THEDOCOO // CULIACÁN</strong>
             </div>
             <button type="button" class="close-popover" (click)="toggle()">[X]</button>
           </div>
@@ -41,8 +41,8 @@ import { WhatsAppService } from '../../core/services/whatsapp.service';
         type="button"
         class="wa-trigger-btn font-mono"
         (click)="handleClick()"
-        aria-label="Abrir WhatsApp oficial DOCO"
-        title="Atención directa por WhatsApp DOCO"
+        aria-label="Abrir WhatsApp oficial Thedocoo"
+        title="Atención directa por WhatsApp Thedocoo"
       >
         <span class="wa-pulse-ring"></span>
         <span class="wa-icon">
@@ -227,7 +227,7 @@ export class DocoWhatsappFloatComponent {
   }
 
   protected chatStylist(): void {
-    const message = 'Hola DOCO! Quiero enviar mi comprobante de pago SPEI / OXXO para mi pedido de ropa.';
+    const message = 'Hola Thedocoo! Quiero enviar mi comprobante de pago SPEI / OXXO para mi pedido de ropa.';
     const url = `https://wa.me/${this.whatsapp.phoneNumber}?text=${encodeURIComponent(message)}`;
     this.whatsapp.openUrl(url);
     this.expanded.set(false);

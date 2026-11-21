@@ -43,7 +43,7 @@ import { SoundFxService } from '../../core/services/sound-fx.service';
             />
           }
         } @else {
-          <div class="yeezy-item__fallback font-mono">DOCO</div>
+          <div class="yeezy-item__fallback font-mono">THEDOCOO</div>
         }
 
         @if (product().stock === 0) {

@@ -10,11 +10,11 @@ import { WhatsAppService } from '../../core/services/whatsapp.service';
   template: `
     @if (cart.isDrawerOpen()) {
       <div class="drawer-backdrop" (click)="cart.closeDrawer()" aria-hidden="true"></div>
-      <aside class="drawer" role="dialog" aria-modal="true" aria-label="Bolsa de compras DOCO">
+      <aside class="drawer" role="dialog" aria-modal="true" aria-label="Bolsa de compras Thedocoo">
         <!-- HEADER (MONOCHROME MINIMAL) -->
         <header class="drawer__head font-mono">
           <div class="drawer__head-title">
-            <span class="drawer__brand-tag">// DOCO ARCHIVE</span>
+            <span class="drawer__brand-tag">// THEDOCOO ARCHIVE</span>
             <h2 class="drawer__title">BOLSA ({{ cart.itemCount() }})</h2>
           </div>
           <button

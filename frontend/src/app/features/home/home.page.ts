@@ -28,7 +28,7 @@ import { DocoProductCardComponent } from '../../shared/components/doco-product-c
         class="yeezy-intro"
         [class.is-leaving]="introLeaving()"
         role="dialog"
-        aria-label="Portada de introducción DOCO"
+        aria-label="Portada de introducción Thedocoo"
       >
         <div class="intro-box">
           <!-- User clicks directly on the logo to enter -->
@@ -37,12 +37,12 @@ import { DocoProductCardComponent } from '../../shared/components/doco-product-c
             (click)="enterArchive()"
             role="button"
             tabindex="0"
-            aria-label="Pulsar el logotipo de DOCO para ingresar al catálogo"
+            aria-label="Pulsar el logotipo de Thedocoo para ingresar al catálogo"
             title="Pulsar para entrar"
           >
             <img
               [src]="theme.isLight() ? '/assets/brand/doco-logo-dark.png' : '/assets/brand/doco-logo-light.png'"
-              alt="DOCO"
+              alt="Thedocoo"
               class="intro-logo-img"
             />
           </div>
@@ -86,7 +86,7 @@ import { DocoProductCardComponent } from '../../shared/components/doco-product-c
       <footer class="yeezy-footer font-mono">
         <div class="footer-links">
           <button type="button" class="foot-link" (click)="openCustomerCare()">CUSTOMER CARE</button>
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="foot-link">INSTAGRAM</a>
+          <a href="https://www.instagram.com/thedocoo/" target="_blank" rel="noopener noreferrer" class="foot-link">INSTAGRAM</a>
           <button type="button" class="foot-link" (click)="openWhatsApp()">WHATSAPP</button>
           <button type="button" class="foot-link" (click)="openTerms()">TERMS</button>
           <button type="button" class="foot-link" (click)="openPrivacy()">PRIVACY</button>
@@ -98,7 +98,7 @@ import { DocoProductCardComponent } from '../../shared/components/doco-product-c
     <!-- CUSTOMER CARE MODAL -->
     @if (modalOpen() === 'care') {
       <div class="info-modal-backdrop" (click)="closeModal()">
-        <div class="info-modal-dialog font-mono" role="dialog" aria-modal="true" aria-label="Customer Care DOCO">
+        <div class="info-modal-dialog font-mono" role="dialog" aria-modal="true" aria-label="Customer Care Thedocoo">
           <div class="modal-head">
             <span class="modal-tag">// CUSTOMER CARE</span>
             <button type="button" class="modal-close" (click)="closeModal()">[X]</button>
@@ -106,7 +106,7 @@ import { DocoProductCardComponent } from '../../shared/components/doco-product-c
           <div class="modal-body">
             <h2 class="modal-title font-mono">CUIDADO & ATENCIÓN DE PIEZAS</h2>
             <p class="modal-p">
-              Todas las prendas de DOCO Archive son piezas originales vintage y de archivo 1-of-1. Cada pieza ha sido inspeccionada físicamente y acondicionada antes de entrar al catálogo.
+              Todas las prendas de Thedocoo son piezas originales vintage y de archivo 1-of-1. Cada pieza ha sido inspeccionada físicamente y acondicionada antes de entrar al catálogo.
             </p>
             <div class="modal-specs-list">
               <div class="spec-row">
@@ -138,7 +138,7 @@ import { DocoProductCardComponent } from '../../shared/components/doco-product-c
     <!-- TERMS MODAL -->
     @if (modalOpen() === 'terms') {
       <div class="info-modal-backdrop" (click)="closeModal()">
-        <div class="info-modal-dialog font-mono" role="dialog" aria-modal="true" aria-label="Términos DOCO">
+        <div class="info-modal-dialog font-mono" role="dialog" aria-modal="true" aria-label="Términos Thedocoo">
           <div class="modal-head">
             <span class="modal-tag">// TERMS & CONDITIONS</span>
             <button type="button" class="modal-close" (click)="closeModal()">[X]</button>
@@ -148,7 +148,7 @@ import { DocoProductCardComponent } from '../../shared/components/doco-product-c
             <div class="modal-specs-list">
               <div class="spec-row">
                 <strong>1. PIEZAS 1-OF-1:</strong>
-                <span>Cada artículo publicado en DOCO es una pieza vintage única física en existencia. No hay reposiciones una vez agotada.</span>
+                <span>Cada artículo publicado en Thedocoo es una pieza vintage única física en existencia. No hay reposiciones una vez agotada.</span>
               </div>
               <div class="spec-row">
                 <strong>2. ENTREGAS LOCALES:</strong>
@@ -174,7 +174,7 @@ import { DocoProductCardComponent } from '../../shared/components/doco-product-c
     <!-- PRIVACY MODAL -->
     @if (modalOpen() === 'privacy') {
       <div class="info-modal-backdrop" (click)="closeModal()">
-        <div class="info-modal-dialog font-mono" role="dialog" aria-modal="true" aria-label="Privacidad DOCO">
+        <div class="info-modal-dialog font-mono" role="dialog" aria-modal="true" aria-label="Privacidad Thedocoo">
           <div class="modal-head">
             <span class="modal-tag">// PRIVACY POLICY</span>
             <button type="button" class="modal-close" (click)="closeModal()">[X]</button>
@@ -182,7 +182,7 @@ import { DocoProductCardComponent } from '../../shared/components/doco-product-c
           <div class="modal-body">
             <h2 class="modal-title font-mono">POLÍTICA DE PRIVACIDAD</h2>
             <p class="modal-p">
-              DOCO Archive protege la privacidad de sus clientes y compradores. La información proporcionada (nombre, número de WhatsApp y dirección de entrega en Culiacán) se utiliza única y exclusivamente para coordinar la entrega y apartado de las prendas solicitadas.
+              Thedocoo protege la privacidad de sus clientes y compradores. La información proporcionada (nombre, número de WhatsApp y dirección de entrega en Culiacán) se utiliza única y exclusivamente para coordinar la entrega y apartado de las prendas solicitadas.
             </p>
             <p class="modal-p">
               No compartimos, vendemos ni transferimos ningún dato personal a terceros. La plataforma opera bajo navegación cifrada de punta a punta.

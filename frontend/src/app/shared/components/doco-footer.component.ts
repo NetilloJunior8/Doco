@@ -15,11 +15,11 @@ import { WhatsAppService } from '../../core/services/whatsapp.service';
         <div class="footer__brand">
           <img
             [src]="theme.isLight() ? '/assets/brand/doco-logo-dark.png' : '/assets/brand/doco-logo-light.png'"
-            alt="DOCO Logo"
+            alt="Thedocoo Logo"
             class="footer__logo"
           />
           <p class="footer__desc">
-            Archivo curado de prendas Vintage, Streetwear y Y2K seleccionadas minuciosamente en Culiacán, Sinaloa.
+            Archivo curado de prendas Vintage, Streetwear y Y2K seleccionadas minuciosamente en Culiacán, Sinaloa por Thedocoo.
             Entrega local y directa en Culiacán.
           </p>
         </div>
@@ -42,8 +42,8 @@ import { WhatsAppService } from '../../core/services/whatsapp.service';
 
         <div class="footer__col font-mono">
           <h4>PREFERENCIAS & ACCESO</h4>
-          <a href="https://instagram.com/doco.tm" target="_blank" rel="noopener noreferrer">
-            Instagram @doco.tm ↗
+          <a href="https://www.instagram.com/thedocoo/" target="_blank" rel="noopener noreferrer">
+            Instagram &#64;thedocoo ↗
           </a>
           <a routerLink="/auth">Consola de Administrador</a>
           <div class="footer-buttons">
@@ -58,7 +58,7 @@ import { WhatsAppService } from '../../core/services/whatsapp.service';
       </div>
 
       <div class="doco-container footer__bottom font-mono">
-        <span>(C) 2026 DOCO.TM - CULIACAN, SINALOA, MEXICO</span>
+        <span>(C) 2026 THEDOCOO - CULIACAN, SINALOA, MEXICO</span>
         <span>VAULT ARCHIVE // STREETWEAR // Y2K</span>
       </div>
     </footer>

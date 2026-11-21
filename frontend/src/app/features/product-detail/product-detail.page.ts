@@ -94,7 +94,7 @@ import { DocoStateViewComponent } from '../../shared/components/doco-state-view.
 
             <div class="specs__table font-mono">
               <div><span>TALLA</span><strong>{{ item.sizeLabel }}</strong></div>
-              <div><span>MEDIDAS EXACTAS</span><strong>{{ item.measurements || 'Verificadas por DOCO Vault' }}</strong></div>
+              <div><span>MEDIDAS EXACTAS</span><strong>{{ item.measurements || 'Verificadas por Thedocoo' }}</strong></div>
               <div><span>CATEGORÍA</span><strong>{{ item.category.name }}</strong></div>
               <div><span>ERA / ESTILO</span><strong>{{ formatEra(item.styleEra) }}</strong></div>
               <div>
